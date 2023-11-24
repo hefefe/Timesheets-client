@@ -21,11 +21,11 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     if (accessToken){
       req = request.clone({
         setHeaders: {
-          Authorization: 'Bearer ' + accessToken
+          "Authorization": 'Bearer ' + accessToken
         }
       });
     }
 
-    return next.handle(request);
+    return next.handle(req || request);
   }
 }
