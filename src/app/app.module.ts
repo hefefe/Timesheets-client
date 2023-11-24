@@ -6,10 +6,12 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TimesheetsHeaderComponent } from '../timesheets-header/timesheets-header.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TimesheetsHeaderComponent
   ],
   imports: [
     BrowserModule,
