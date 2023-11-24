@@ -9,7 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TimesheetsHeaderComponent } from './timesheets-header/timesheets-header.component';
 import { TimesheetsAuthComponent } from './timesheets-auth/timesheets-auth.component';
 import { CheckboxModule } from 'primeng/checkbox';
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http'
+import { HttpConfigInterceptor } from './http-config.interceptor';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,9 @@ import { HttpClientModule } from '@angular/common/http'
     HttpClientModule,
     CheckboxModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

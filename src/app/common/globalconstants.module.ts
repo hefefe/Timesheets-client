@@ -11,4 +11,6 @@ import { CommonModule } from '@angular/common';
 })
 export class GlobalconstantsModule {
   public static apiURL: string = "http://localhost:8080";
+  public static atoken: string = "accessToken";
+  public static rtoken: string = "refreshToken";
  }

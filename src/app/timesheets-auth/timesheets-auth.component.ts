@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthServiceService } from '../auth-service.service';
+import { GlobalconstantsModule } from '../common/globalconstants.module';
 
 @Component({
   selector: 'app-timesheets-auth',
@@ -18,9 +19,9 @@ export class TimesheetsAuthComponent {
     this.jwtService.login(this.credentials).subscribe(
       (data:any)=>{
         if (this.isChecked){
-          localStorage.setItem('token', data.accessToken);
+          localStorage.setItem(GlobalconstantsModule.atoken, data.accessToken);
         }else{
-          sessionStorage.setItem('token', data.accessToken);
+          sessionStorage.setItem(GlobalconstantsModule.atoken, data.accessToken);
         }
       }
     )
