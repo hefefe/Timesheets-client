@@ -6,19 +6,25 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TimesheetsHeaderComponent } from '../timesheets-header/timesheets-header.component';
+import { TimesheetsHeaderComponent } from './timesheets-header/timesheets-header.component';
+import { TimesheetsAuthComponent } from './timesheets-auth/timesheets-auth.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimesheetsHeaderComponent
+    TimesheetsHeaderComponent,
+    TimesheetsAuthComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
-    CalendarModule
+    CalendarModule,
+    HttpClientModule,
+    CheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent]

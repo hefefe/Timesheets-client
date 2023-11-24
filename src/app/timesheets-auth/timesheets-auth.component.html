@@ -1,0 +1,12 @@
+<div class="card flex justify-content-center">
+  <label for="uname"><b>Username</b></label>
+  <input type="text" placeholder="Enter Username" [(ngModel)]="credentials.email" required>
+
+  <label for="psw"><b>Password</b></label>
+  <input type="password" placeholder="Enter Password" [(ngModel)]="credentials.password" required>
+
+  <button type="submit" (click)="login()">Login</button>
+  <label>
+    <input type="checkbox" checked="checked" name="remember" [(ngModel)]="isChecked"> Remember me
+  </label>
+</div>
