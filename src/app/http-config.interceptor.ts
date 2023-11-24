@@ -21,7 +21,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     if (accessToken){
       req = request.clone({
         setHeaders: {
-          "Authorization": 'Bearer ' + accessToken
+          Authorization: 'Bearer ' + accessToken
         }
       });
     }
