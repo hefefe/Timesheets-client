@@ -14,7 +14,12 @@ export class TimesheetsAuthComponent {
     email: '',
     password: ''
   }
-  constructor(private jwtService:AuthServiceService, private router: Router, private route: ActivatedRoute){}
+  constructor(private jwtService:AuthServiceService, private router: Router, private route: ActivatedRoute){
+    const accessToken = localStorage.getItem(GlobalconstantsModule.atoken) || sessionStorage.getItem(GlobalconstantsModule.atoken);
+    if (accessToken){
+      this.router.navigate(["/home"]);
+    }
+  }
 
   login() {
     this.jwtService.login(this.credentials).subscribe(

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ChangePassService } from './change-pass.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-pass',
@@ -11,11 +12,13 @@ export class ChangePassComponent {
     password: '',
     confirmPassword: ''
   }
-  constructor(private changePasswordService:ChangePassService){}
+  constructor(private changePasswordService:ChangePassService, private router: Router){}
 
   setPassword() {
     if (this.credentials.password == this.credentials.confirmPassword){
-      this.changePasswordService.setPassword(this.credentials).subscribe();
+      this.changePasswordService.setPassword(this.credentials).subscribe((res:any) => {
+        this.router.navigate(["/home"]);
+        });
     }
   }
 }

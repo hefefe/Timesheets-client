@@ -27,7 +27,6 @@ export class HomeComponent {
   constructor(private appService: AppServiceService){ }
   ngOnInit() {
     this.getLoggedInUser();
-    console.log(this.basicData.firstName);
 }
 
  logout(){
@@ -47,7 +46,6 @@ export class HomeComponent {
  getLoggedInUser(){
   this.appService.getLoggedUser().subscribe(data =>
     {this.basicData.firstName = data.firstName;
-      console.log(data.firstName);
     this.basicData.lastName = data.lastName;
     this.basicData.photo = data.photo;
     this.basicData.experience = data.experience;

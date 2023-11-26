@@ -4,6 +4,7 @@ import { TimesheetsAuthComponent } from './components/timesheets-auth/timesheets
 import { ChangePassComponent } from './components/change-pass/change-pass.component';
 import { HomeComponent } from './components/home/home.component';
 import { EmployeeComponent } from './components/employee/employee.component';
+import { loginGuard } from './components/timesheets-auth/login.guard';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {path: 'login',
+   canDeactivate: [loginGuard],
    component: TimesheetsAuthComponent
   },
   {path: 'changePassword',
