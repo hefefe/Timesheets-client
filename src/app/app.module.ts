@@ -15,13 +15,17 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ChangePassComponent } from './components/change-pass/change-pass.component';
 import { SidebarModule } from 'primeng/sidebar';
+import { HomeComponent } from './components/home/home.component';
+import { EmployeeComponent } from './components/employee/employee.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     TimesheetsAuthComponent,
-    ChangePassComponent
+    ChangePassComponent,
+    HomeComponent,
+    EmployeeComponent
   ],
   imports: [
     BrowserModule,

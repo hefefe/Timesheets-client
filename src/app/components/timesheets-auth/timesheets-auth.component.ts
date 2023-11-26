@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthServiceService } from './auth-service.service';
 import { GlobalconstantsModule } from '../../common/globalconstants.module';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-timesheets-auth',
@@ -13,7 +14,7 @@ export class TimesheetsAuthComponent {
     email: '',
     password: ''
   }
-  constructor(private jwtService:AuthServiceService){}
+  constructor(private jwtService:AuthServiceService, private router: Router, private route: ActivatedRoute){}
 
   login() {
     this.jwtService.login(this.credentials).subscribe(
@@ -24,6 +25,11 @@ export class TimesheetsAuthComponent {
         }else{
           sessionStorage.setItem(GlobalconstantsModule.atoken, data.accessToken);
           sessionStorage.setItem(GlobalconstantsModule.rtoken, data.refreshToken);
+        }
+        if (data.requiredToChangePassword == true){
+          this.router.navigate(["/changePassword"]);
+        }else{
+          this.router.navigate(["/home"]);
         }
       }
     )

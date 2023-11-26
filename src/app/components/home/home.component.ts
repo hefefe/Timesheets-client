@@ -1,17 +1,14 @@
-import { Token } from '@angular/compiler';
 import { Component } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Person, PersonInterface, Tokens } from './personInterface';
-import { AppServiceService } from './components/home/app-service.service';
-import { GlobalconstantsModule } from './common/globalconstants.module';
+import { Tokens } from 'src/app/personInterface';
+import { AppServiceService } from './app-service.service';
+import { GlobalconstantsModule } from 'src/app/common/globalconstants.module';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class AppComponent {
-
+export class HomeComponent {
   title = 'timesheets-client';
   sidebarVisible: boolean = false;
   basicData = {

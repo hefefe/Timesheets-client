@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { GlobalconstantsModule } from './common/globalconstants.module';
-import { PersonInterface, Tokens } from './personInterface';
+import { GlobalconstantsModule } from '../../common/globalconstants.module';
+import { PersonInterface, Tokens } from '../../personInterface';
 import { Observable } from 'rxjs';
 
 @Injectable({
