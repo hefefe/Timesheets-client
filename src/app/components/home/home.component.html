@@ -1,4 +1,4 @@
-<div class="flex align-items-center justify-content-start border-bottom-1 border-primary sticky top-0" >
+<div class="flex align-items-center justify-content-start border-bottom-1 border-primary sticky top-0 header surface-ground" >
   <p-button (click)="sidebarVisible = true" icon="pi pi-bars" [text]="true"></p-button>
   <div>
     <img src="/assets/img/logoSmol.png" alt="image" class="logo">
@@ -6,12 +6,12 @@
   </div>
     <p-sidebar [(visible)]="sidebarVisible">
       <ng-template pTemplate="header">
-        <span class="text-4xl font-semibold">Menu</span>
+        <img src="/assets/img/logoSmol.png" alt="image" class="logo" style="width: 70%;">
       </ng-template>
       <div class="flex flex-column align-items-center justify-content-between border-top-1 border-primary pt-4">
         <img id="person" src="data:image/png;base64,{{basicData.photo}}" />
       <div class="flex align-items-center justify-content-center">
-        <h2 class="mr-3">{{basicData.firstName}}</h2>
+        <h2 class="mr-2">{{basicData.firstName}}</h2>
         <h2>{{basicData.lastName}}</h2>
       </div>
       <div class="flex align-items-center justify-content-center" style="margin-top: -30px;">
@@ -22,10 +22,15 @@
         <p-button label="Time tracker" icon="pi pi-clock" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary"></p-button>
         <p-button label="Reports" icon="pi pi-chart-bar" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary"></p-button>
         <p-button label="Projects" icon="pi pi-desktop" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary"></p-button>
-        <p-button label="Teams" icon="pi pi-users" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary"></p-button>
-        <p-button label="Employees" icon="pi pi-user" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary"></p-button>
+        <p-button label="Teams" icon="pi pi-users" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary" ></p-button>
+        <p-button label="Employees" icon="pi pi-user" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary" routerLink="/home/employees"></p-button>
       </div>
       <p-button label="Sign out" icon="pi pi-sign-out" [text]="true" [style]="{'width':'300px'}" class="mb-2 border-top-1 border-bottom-1 border-primary m-auto" (onClick)="logout()"></p-button>
       </div>
 </p-sidebar>
+<div style="min-height: 87vh;">
 <router-outlet></router-outlet>
+</div>
+<div class="flex flex-column align-items-center justify-content-center border-top-1 border-primary py-3">
+  <span>Application was made by<span class="font-medium ml-2">Michał Witczak</span> </span>
+</div>

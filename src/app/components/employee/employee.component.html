@@ -1,1 +1,177 @@
-<p>employee works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="card px-6 py-6">
+      <p-toast></p-toast>
+      <div class="my-2">
+                      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                      <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedEmployee || !selectedEmployee.length"></button>
+                  </div>
+      <p-table #dt [value]="employees" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+        [globalFilterFields]="['firstName','SortableColumn','experience','position','hourlyPay','workDuringWeekInHours']" [paginator]="true"
+        [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedEmployee"
+        selectionMode="multiple" [rowHover]="true" dataKey="id">
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th pSortableColumn="id">Id<p-sortIcon field="id"></p-sortIcon></th>
+            <th>Image</th>
+            <th pSortableColumn="firstName">First name<p-sortIcon field="firstName"></p-sortIcon></th>
+            <th pSortableColumn="lastName">Last name<p-sortIcon field="lastName"></p-sortIcon></th>
+            <th>E-mail</th>
+            <th>Phone</th>
+            <th pSortableColumn="experience">Experience<p-sortIcon field="experience"></p-sortIcon></th>
+            <th pSortableColumn="position">Position<p-sortIcon field="position"></p-sortIcon></th>
+            <th pSortableColumn="hourlyPay">Pay/H<p-sortIcon field="hourlyPay"></p-sortIcon></th>
+            <th pSortableColumn="workDuringWeekInHours">Work H/week<p-sortIcon field="workDuringWeekInHours"></p-sortIcon></th>
+            <th>temporary password</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-employee>
+          <tr class="">
+            <td>
+              <p-tableCheckbox [value]="employee"></p-tableCheckbox>
+            </td>
+            <td style="width:5%;"><span class="p-column-title">Id</span>
+              {{employee.id}}
+            </td>
+            <td style="width:10%;"><span class="p-column-title">Image</span>
+              <img src="data:image/png;base64,{{employee.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4" style="width: 45%; border-radius:100%" />
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">First name</span>
+              {{employee.firstName}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">Last name</span>
+              {{employee.lastName}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">E-mail</span>
+              {{employee.user.email}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">Phone</span>
+              {{employee.phone}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">Experience</span>
+              {{employee.experience}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">Position</span>
+              {{employee.position}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">Pay/H</span>
+              {{employee.hourlyPay | number:'0.2'}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">Work H/week</span>
+              {{employee.workDuringWeekInHours}}
+            </td>
+            <td style="width:10%;">
+              <span class="p-column-title">Temporary password</span>
+              {{employee.user.tempPassword}}
+            </td>
+            <td>
+                <div class="flex">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(employee)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(employee)"></button>
+                </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <!-- <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid">
+          <ng-template pTemplate="content">
+              <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image">
+              <div class="field">
+                  <label for="name">Name</label>
+                  <input type="text" pInputText id="name" [(ngModel)]="product.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                  <small class="ng-dirty ng-invalid" *ngIf="submitted && !product.name">Name is required.</small>
+              </div>
+              <div class="field">
+                  <label for="description">Description</label>
+                  <textarea id="description" pInputTextarea [(ngModel)]="product.description" required rows="3" cols="20"></textarea>
+              </div>
+              <div class="field">
+                  <label for="status">Inventory Status</label>
+                  <p-dropdown [(ngModel)]="product.inventoryStatus" inputId="inventoryStatus" optionValue="label" [options]="statuses" placeholder="Select">
+                      <ng-template pTemplate="selectedItem">
+                          <span *ngIf="product && product.inventoryStatus" [class]="'product-badge status-' + product.inventoryStatus.toString().toLowerCase()">{{product.inventoryStatus}}</span>
+                      </ng-template>
+                      <ng-template let-option pTemplate="item">
+                          <span [class]="'product-badge status-' + option.value">{{option.label}}</span>
+                      </ng-template>
+                  </p-dropdown>
+              </div>
+
+              <div class="field">
+                  <label class="mb-3">Category</label>
+                  <div class="formgrid grid">
+                      <div class="field-radiobutton col-6">
+                          <p-radioButton id="category1" name="category" value="Accessories" [(ngModel)]="product.category"></p-radioButton>
+                          <label for="category1">Accessories</label>
+                      </div>
+                      <div class="field-radiobutton col-6">
+                          <p-radioButton id="category2" name="category" value="Clothing" [(ngModel)]="product.category"></p-radioButton>
+                          <label for="category2">Clothing</label>
+                      </div>
+                      <div class="field-radiobutton col-6">
+                          <p-radioButton id="category3" name="category" value="Electronics" [(ngModel)]="product.category"></p-radioButton>
+                          <label for="category3">Electronics</label>
+                      </div>
+                      <div class="field-radiobutton col-6">
+                          <p-radioButton id="category4" name="category" value="Fitness" [(ngModel)]="product.category"></p-radioButton>
+                          <label for="category4">Fitness</label>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="formgrid grid">
+                  <div class="field col">
+                      <label for="price">Price</label>
+                      <p-inputNumber id="price" [(ngModel)]="product.price" mode="currency" currency="USD" locale="en-US"></p-inputNumber>
+                  </div>
+                  <div class="field col">
+                      <label for="quantity">Quantity</label>
+                      <p-inputNumber id="quantity" [(ngModel)]="product.quantity"></p-inputNumber>
+                  </div>
+              </div>
+          </ng-template>
+
+          <ng-template pTemplate="footer">
+              <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+              <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+          </ng-template>
+      </p-dialog> -->
+
+      <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+          <div class="flex align-items-center justify-content-center">
+              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+              <span *ngIf="employee">Are you sure you want to delete <b>{{employee.firstName}} </b><b>{{employee.lastName}}</b>?</span>
+          </div>
+          <ng-template pTemplate="footer">
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+          </ng-template>
+      </p-dialog>
+
+      <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+          <div class="flex align-items-center justify-content-center">
+              <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+              <span>Are you sure you want to delete selected products?</span>
+          </div>
+          <ng-template pTemplate="footer">
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+              <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+          </ng-template>
+      </p-dialog>
+  </div>
+</div>

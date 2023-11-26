@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { Tokens } from 'src/app/personInterface';
+import { PersonInterface, Tokens } from 'src/app/personInterface';
 import { AppServiceService } from './app-service.service';
 import { GlobalconstantsModule } from 'src/app/common/globalconstants.module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -11,22 +12,18 @@ import { GlobalconstantsModule } from 'src/app/common/globalconstants.module';
 export class HomeComponent {
   title = 'timesheets-client';
   sidebarVisible: boolean = false;
-  basicData = {
-    firstName: '',
-    lastName: '',
-    photo: '',
-    experience: '',
-    position: ''
-  }
+  basicData: PersonInterface = {}
 
   tokens: Tokens = {
     accessToken: '',
     refreshToken: ''
   }
 
-  constructor(private appService: AppServiceService){ }
-  ngOnInit() {
+  constructor(private appService: AppServiceService, private router: Router){
     this.getLoggedInUser();
+  }
+  ngOnInit() {
+
 }
 
  logout(){
@@ -40,15 +37,11 @@ export class HomeComponent {
     sessionStorage.removeItem(GlobalconstantsModule.atoken);
     localStorage.removeItem(GlobalconstantsModule.rtoken);
     sessionStorage.removeItem(GlobalconstantsModule.rtoken);
+    this.router.navigate(["/login"]);
   }
  }
 
  getLoggedInUser(){
-  this.appService.getLoggedUser().subscribe(data =>
-    {this.basicData.firstName = data.firstName;
-    this.basicData.lastName = data.lastName;
-    this.basicData.photo = data.photo;
-    this.basicData.experience = data.experience;
-    this.basicData.position = data.position;});
+  this.appService.getLoggedUser().subscribe(data => this.basicData = data);
 }
 }

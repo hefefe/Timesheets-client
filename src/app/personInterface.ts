@@ -1,58 +1,58 @@
 export interface PersonInterface {
-  id: number;
+  id?: number;
 
-  firstName: string;
+  firstName?: string;
 
-  lastName: string;
+  lastName?: string;
 
-  photo: any;
+  photo?: any;
 
-  middleName: string;
+  middleName?: string;
 
-  sex: string;
+  sex?: string;
 
-  dateOfBirth: Date;
+  dateOfBirth?: Date;
 
-  dateOfEmployment: Date;
+  dateOfEmployment?: Date;
 
-  experience: string;
+  experience?: Experience;
 
-  position: string;
+  position?: Position;
 
-  workDuringWeekInHours: number;
+  workDuringWeekInHours?: number;
 
-  hourlyPay: number;
+  hourlyPay?: number;
 
-  address: PersonAddress;
+  address?: PersonAddress;
 
-  phone: string;
+  phone?: string;
 
-  user: PersonUser;
+  user?: PersonUser;
 }
 
 export interface PersonAddress {
-  id: number;
+  id?: number;
 
-  streetName: string;
+  streetName?: string;
 
-  city: string;
+  city?: string;
 
-  homeNumber: string;
+  homeNumber?: string;
 
-  zipCode: string;
+  zipCode?: string;
 
-  country: string;
+  country?: string;
 }
 
 export interface PersonUser {
 
-  id: number;
+  id?: number;
 
-  email: string;
+  email?: string;
 
-  tempPassword: string;
+  tempPassword?: string;
 
-  roles: string;
+  roles?: string;
 }
 
 export interface Tokens {
@@ -60,37 +60,25 @@ export interface Tokens {
   refreshToken: string;
 }
 
-export class Person implements PersonInterface {
-  id: number;
-  firstName: string;
-  lastName: string;
-  photo: any;
-  middleName: string;
-  sex: string;
-  dateOfBirth: Date;
-  dateOfEmployment: Date;
-  experience: string;
-  position: string;
-  workDuringWeekInHours: number;
-  hourlyPay: number;
-  address: PersonAddress;
-  phone: string;
-  user: PersonUser;
-  constructor(person: PersonInterface) {
-    this.id = person.id;
-    this.firstName = person.firstName;
-    this.lastName = person.lastName;
-    this.middleName = person.middleName;
-    this.sex = person.sex;
-    this.dateOfBirth = person.dateOfBirth;
-    this.dateOfEmployment = person.dateOfEmployment;
-    this.experience = person.experience;
-    this.position = person.position;
-    this.workDuringWeekInHours = person.workDuringWeekInHours;
-    this.hourlyPay = person.hourlyPay;
-    this.phone = person.phone;
-    this.user = person.user;
-    this.address = person.address;
-  }
+export enum Experience {
+  Junior = 'Junior',
+  Mid = 'Mid',
+  Senior = 'Senior'
+}
 
+export enum Position {
+
+  BACKEND = 'backend',
+  FRONTEND = 'frontend',
+  DEVOPS = 'devops',
+  QA = 'quality assurance',
+  TEAM_LEADER = 'team leader',
+  MANAGER = 'manager'
+}
+
+export enum Roles {
+
+  ROLE_USER = 'ROLE_USER',
+  ROLE_LEADER = 'ROLE_LEADER',
+  ROLE_ADMIN = 'ROLE_ADMIN'
 }

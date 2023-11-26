@@ -11,7 +11,7 @@ export class AppServiceService {
 
 constructor(private http: HttpClient) { }
 
-getLoggedUser(): Observable<PersonInterface>{
+getLoggedUser(){
   return this.http.get<PersonInterface>(GlobalconstantsModule.apiURL+'/api/person');
 }
 
