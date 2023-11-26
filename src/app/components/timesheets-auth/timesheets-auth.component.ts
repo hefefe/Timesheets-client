@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthServiceService } from '../auth-service.service';
-import { GlobalconstantsModule } from '../common/globalconstants.module';
+import { AuthServiceService } from './auth-service.service';
+import { GlobalconstantsModule } from '../../common/globalconstants.module';
 
 @Component({
   selector: 'app-timesheets-auth',
@@ -20,8 +20,10 @@ export class TimesheetsAuthComponent {
       (data:any)=>{
         if (this.isChecked){
           localStorage.setItem(GlobalconstantsModule.atoken, data.accessToken);
+          localStorage.setItem(GlobalconstantsModule.rtoken, data.refreshToken);
         }else{
           sessionStorage.setItem(GlobalconstantsModule.atoken, data.accessToken);
+          sessionStorage.setItem(GlobalconstantsModule.rtoken, data.refreshToken);
         }
       }
     )

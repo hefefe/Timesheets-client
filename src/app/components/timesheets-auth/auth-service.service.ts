@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Login } from 'src/login';
-import { GlobalconstantsModule } from './common/globalconstants.module';
+import { Login } from 'src/app/components/timesheets-auth/auth-service.interfaces';
+import { GlobalconstantsModule } from '../../common/globalconstants.module';
 
 @Injectable({
   providedIn: 'root'

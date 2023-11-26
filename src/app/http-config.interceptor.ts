@@ -15,8 +15,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let req: HttpRequest<unknown> | null = null;
-    const accessToken = localStorage.getItem(GlobalconstantsModule.atoken);
-    const refreshToken = localStorage.getItem(GlobalconstantsModule.rtoken);
+    const accessToken = localStorage.getItem(GlobalconstantsModule.atoken) || sessionStorage.getItem(GlobalconstantsModule.atoken);
 
     if (accessToken){
       req = request.clone({

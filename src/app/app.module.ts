@@ -6,17 +6,22 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TimesheetsHeaderComponent } from './timesheets-header/timesheets-header.component';
-import { TimesheetsAuthComponent } from './timesheets-auth/timesheets-auth.component';
+import { TimesheetsAuthComponent } from './components/timesheets-auth/timesheets-auth.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { HttpClientModule, HTTP_INTERCEPTORS  } from '@angular/common/http'
 import { HttpConfigInterceptor } from './http-config.interceptor';
+import { MenuModule } from 'primeng/menu';
+import { InputTextModule } from 'primeng/inputtext';
+import { PasswordModule } from 'primeng/password';
+import { ChangePassComponent } from './components/change-pass/change-pass.component';
+import { SidebarModule } from 'primeng/sidebar';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    TimesheetsHeaderComponent,
-    TimesheetsAuthComponent
+    TimesheetsAuthComponent,
+    ChangePassComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,11 @@ import { HttpConfigInterceptor } from './http-config.interceptor';
     BrowserAnimationsModule,
     CalendarModule,
     HttpClientModule,
-    CheckboxModule
+    CheckboxModule,
+    MenuModule,
+    InputTextModule,
+    PasswordModule,
+    SidebarModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
