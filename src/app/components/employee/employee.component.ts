@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { Product } from './product';
-import { ProductService } from './product.service';
 import { MessageService } from 'primeng/api';
-import { PersonInterface } from 'src/app/personInterface';
+import { Experience, PersonInterface, Position } from 'src/app/personInterface';
 import { EmployeeService } from './employee.service';
 
 @Component({
@@ -30,15 +28,23 @@ export class EmployeeComponent {
 
   cols: any[] = [];
 
-  statuses: any[] = [];
-
   rowsPerPageOptions = [5, 10, 20];
 
-  constructor(private employeeService: EmployeeService, private messageService: MessageService) { }
+  image: any;
+
+  experience:string[] = [];
+  enumsExperience = Experience;
+
+  position:string[] =[];
+  enumsPosition = Position;
+
+  constructor(private employeeService: EmployeeService, private messageService: MessageService) {
+    this.employeeService.getEmployees().then(data => this.employees = data);
+    this.experience= Object.keys(this.enumsExperience);
+    this.position= Object.keys(this.enumsPosition);
+  }
 
   ngOnInit() {
-      this.employeeService.getEmployees().then(data => this.employees = data);
-
       this.cols = [
           { field: 'id', header: 'Id' },
           { field: 'photo', header: 'Photo' },
@@ -55,7 +61,9 @@ export class EmployeeComponent {
   }
 
   openNew() {
-      this.employee = {};
+      this.employee = {
+        user: {}
+      };
       this.submitted = false;
       this.productDialog = true;
   }
@@ -66,6 +74,7 @@ export class EmployeeComponent {
 
   editProduct(employee: PersonInterface) {
       this.employee = { ...employee };
+      // this.cardImageBase64 = "data:image/*;base64,"+employee.photo;
       this.productDialog = true;
   }
 
@@ -99,30 +108,35 @@ export class EmployeeComponent {
   hideDialog() {
       this.productDialog = false;
       this.submitted = false;
+      this.employee = {};
+      this.cardImageBase64 = '';
   }
 
   saveProduct() {
       this.submitted = true;
-
-          if (this.employee.id) {
-              // @ts-ignore
-              // this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-              // this.products[this.findIndexById(this.product.id)] = this.product;
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
-          } else {
-              // this.product.id = this.createId();
-              // this.product.code = this.createId();
-              // this.product.image = 'product-placeholder.svg';
-              // // @ts-ignore
-              // this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-              // this.products.push(this.product);
-              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
-          }
-
+            this.employeeService.saveEmployee(this.employee).subscribe((data:any) => {
+              this.employees[this.findArrayPlacement(data.id)] = data;
+              this.employees = [...this.employees];
+              if (this.image != null){
+                this.employeeService.saveEmployeePhoto(data.id, this.image).subscribe((data:PersonInterface) =>{
+                  this.employees[this.findArrayPlacement(data.id!)] = data;
+                  this.image = null;
+                });
+              }
+            });
           this.employees = [...this.employees];
           this.productDialog = false;
           this.employee = {};
+          this.cardImageBase64 = '';
+  }
 
+  findArrayPlacement(id:number){
+    for (let i = 0; i < this.employees.length; i++) {
+      if (this.employees[i].id == id){
+        return i;
+      }
+    }
+    return this.employees.length;
   }
 
   findIndexById(id: number): number {
@@ -139,6 +153,7 @@ export class EmployeeComponent {
 
   CreateBase64String(fileInput: any) {
     if (fileInput.target.files && fileInput.target.files[0]) {
+      this.image = fileInput.target.files[0];
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const image = new Image();
@@ -150,5 +165,6 @@ export class EmployeeComponent {
       };
       reader.readAsDataURL(fileInput.target.files[0]);
     }
+    console.log(this.cardImageBase64);
   }
 }
