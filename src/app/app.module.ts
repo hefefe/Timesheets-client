@@ -30,6 +30,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
+import { MessagesModule } from 'primeng/messages';
+import { MessageService } from 'primeng/api';
+import { ProjectsComponent } from './components/projects/projects.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,8 @@ import { DialogModule } from 'primeng/dialog';
     TimesheetsAuthComponent,
     ChangePassComponent,
     HomeComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    ProjectsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,10 +69,12 @@ import { DialogModule } from 'primeng/dialog';
         RadioButtonModule,
         InputNumberModule,
         DialogModule,
-        CommonModule
+        CommonModule,
+        MessagesModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
+    MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true},
   ],
   bootstrap: [AppComponent]
 })

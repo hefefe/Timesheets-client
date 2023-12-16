@@ -16,6 +16,8 @@ export class EmployeeComponent {
 
   deleteProductsDialog: boolean = false;
 
+  refreshPasswords: boolean = false;
+
   employees: PersonInterface[] = [];
 
   employee: PersonInterface = {};
@@ -74,7 +76,7 @@ export class EmployeeComponent {
 
   editProduct(employee: PersonInterface) {
       this.employee = { ...employee };
-      // this.cardImageBase64 = "data:image/*;base64,"+employee.photo;
+      this.employee.user = Object.assign({}, this.employee.user);
       this.productDialog = true;
   }
 
@@ -166,5 +168,19 @@ export class EmployeeComponent {
       reader.readAsDataURL(fileInput.target.files[0]);
     }
     console.log(this.cardImageBase64);
+  }
+
+  resetPassword(){
+    this.refreshPasswords = true;
+  }
+
+  confirmResetSelected(){
+    this.refreshPasswords = false;
+    this.employeeService.resetPassword(this.selectedEmployee.map(employee => employee.id ?? 0)).subscribe((data:any) =>{
+      data.forEach((element:any) => {
+        this.employees[this.findArrayPlacement(element.id)] = element;
+      });
+    });
+    this.selectedEmployee = [];
   }
 }

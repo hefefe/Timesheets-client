@@ -5,6 +5,7 @@ import { ChangePassComponent } from './components/change-pass/change-pass.compon
 import { HomeComponent } from './components/home/home.component';
 import { EmployeeComponent } from './components/employee/employee.component';
 import { loginGuard } from './components/timesheets-auth/login.guard';
+import { ProjectsComponent } from './components/projects/projects.component';
 
 const routes: Routes = [
   {
@@ -21,7 +22,9 @@ const routes: Routes = [
   },
   {path: 'home',
    component: HomeComponent,
-   children: [{path: 'employees', component: EmployeeComponent}]
+   children: [
+    {path: 'employees', component: EmployeeComponent},
+    {path: 'projects', component: ProjectsComponent}]
   }
 ];
 

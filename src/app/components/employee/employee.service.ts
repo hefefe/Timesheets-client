@@ -35,4 +35,11 @@ saveEmployeePhoto(id: number, file:File){
   return this.http.post(GlobalconstantsModule.apiURL+'/api/person/photo', formData , {params: {personId: id.toString()}})
 }
 
+resetPassword(ids:number[]){
+  let params = new HttpParams();
+    for (let id of ids) {
+      params = params.append('ids', id);
+    }
+  return this.http.post(GlobalconstantsModule.apiURL+'/api/person/reset-password', params);
+}
 }
