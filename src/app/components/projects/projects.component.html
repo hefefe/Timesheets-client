@@ -1,1 +1,29 @@
-<p>projects works!</p>
+<div>
+  <p-table [value]="projects" [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" (onRowSelect)="test($event)">
+    <ng-template pTemplate="body" let-project>
+      <tr [pSelectableRow]="project">
+        <td >
+          <div class="flex align-items-center">
+            <img id="projectPhoto" src="data:image/png;base64,{{project.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 50px; height:50px; border-radius:4px" />
+             {{ project.name }}
+            </div>
+            </td>
+        <td>{{ project.key }}</td>
+        <td>
+          <div class="flex align-items-center">
+            <img id="leadPhoto" src="data:image/png;base64,{{project.person.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 50px; height:50px; border-radius:100%" />
+            {{project.person.firstName}}
+            {{project.person.lastName}}
+          </div>
+        </td>
+        <td>{{ project.sprintDuration}}</td>
+        <td>
+          <div>
+              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success m-1"></button>
+              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-warning m-1"></button>
+          </div>
+      </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -33,6 +33,7 @@ import { DialogModule } from 'primeng/dialog';
 import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { ProjectsComponent } from './components/projects/projects.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ProjectsComponent } from './components/projects/projects.component';
     ChangePassComponent,
     HomeComponent,
     EmployeeComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    TasksComponent
   ],
   imports: [
     BrowserModule,

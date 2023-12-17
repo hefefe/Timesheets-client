@@ -8,7 +8,7 @@
                   <span class="text-600 font-medium">Sign in to continue</span>
               </div>
 
-              <div>
+              <div (keydown.enter)="login()">
                   <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
                   <input id="email1" type="text" placeholder="Email address" pInputText class="w-full md:w-30rem mb-5" style="padding:1rem" [(ngModel)]="credentials.email">
 

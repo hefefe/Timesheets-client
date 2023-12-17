@@ -109,7 +109,7 @@
             <div class="pormgrid grid">
               <div class="field col">
                 <label htmlFor="name2">E-mail</label>
-                <input type="text" pInputText id="name" [(ngModel)]="employee.user!.email" autofocus/>
+                <input type="text" pInputText id="name" [(ngModel)]="employee.user!.email"/>
               </div>
               <div class="field col">
                 <label htmlFor="email2">phone number</label>
@@ -119,20 +119,20 @@
             <div class="formgrid grid">
               <div class="field col">
                 <label htmlFor="name2">Pay per hour</label>
-                <input type="number" pInputText id="name" [(ngModel)]="employee.hourlyPay" autofocus/>
+                <input type="number" pInputText id="name" [(ngModel)]="employee.hourlyPay" min="0" step="0.01"/>
               </div>
               <div class="field col">
                 <label htmlFor="email2">work H/week</label>
-                <input type="number" pInputText id="name" [(ngModel)]="employee.workDuringWeekInHours" />
+                <input type="number" pInputText id="name" [(ngModel)]="employee.workDuringWeekInHours" min="0" step="1"/>
               </div>
             </div>
               <div class="field w-full">
                 <label htmlFor="name2">experience</label>
-                <p-dropdown [options]="experience" [(ngModel)]="employee.experience" [showClear]="true" placeholder="select experience level"></p-dropdown>
+                <p-dropdown appendTo="body" [options]="experience" [(ngModel)]="employee.experience" [showClear]="true" placeholder="select experience level"></p-dropdown>
               </div>
               <div class="field w-full pb-2">
                 <label htmlFor="email2">position</label>
-                <p-dropdown [options]="position" [(ngModel)]="employee.position" [showClear]="true" placeholder="select position"></p-dropdown>
+                <p-dropdown appendTo="body" [options]="position" [(ngModel)]="employee.position" [showClear]="true" placeholder="select position"></p-dropdown>
               </div>
             </div>
           </ng-template>
