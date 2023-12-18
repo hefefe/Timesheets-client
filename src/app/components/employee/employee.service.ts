@@ -29,10 +29,9 @@ saveEmployee(person: PersonInterface){
 }
 
 saveEmployeePhoto(id: number, file:File){
-  let formData  = new FormData();
-  formData .append('photo', file, file.name);
-
-  return this.http.post(GlobalconstantsModule.apiURL+'/api/person/photo', formData , {params: {personId: id.toString()}})
+  let formData = new FormData();
+  formData.append('photo', file, file.name);
+  return this.http.post(GlobalconstantsModule.apiURL+'/api/person/photo', formData , {params: {personId: id.toString()}});
 }
 
 resetPassword(ids:number[]){

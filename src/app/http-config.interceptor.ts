@@ -33,7 +33,11 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     return next.handle(req || request).pipe(map((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
           if(event.status >= 200 && event.status < 300 && (req||request).method!='GET'){
-            this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task done succesfully', life: 3000 });
+            if((req||request).url != "http://localhost:8080/api/person/search"
+            && (req||request).url != "http://localhost:8080/api/person/photo"
+            && (req||request).url != "http://localhost:8080/api/project/photo"){
+              this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task done succesfully', life: 3000 });
+            }
           }
       }
       return event;

@@ -24,13 +24,7 @@ export class EmployeeComponent {
 
   selectedEmployee: PersonInterface[] = [];
 
-  submitted: boolean = false;
-
   cardImageBase64: string = '';
-
-  cols: any[] = [];
-
-  rowsPerPageOptions = [5, 10, 20];
 
   image: any;
 
@@ -46,27 +40,12 @@ export class EmployeeComponent {
     this.position= Object.keys(this.enumsPosition);
   }
 
-  ngOnInit() {
-      this.cols = [
-          { field: 'id', header: 'Id' },
-          { field: 'photo', header: 'Photo' },
-          { field: 'firstName', header: 'FirstName' },
-          { field: 'lastName', header: 'LastName' },
-          { field: 'email', header: 'Email' },
-          { field: 'phone', header: 'Phone' },
-          { field: 'experience', header: 'Experience' },
-          { field: 'position', header: 'Position' },
-          { field: 'hourlyPay', header: 'Pay/Hr' },
-          { field: 'workDuringWeekInHours', header: 'work Hr/Week' },
-          { field: 'user.tempPassword', header: 'temporary Password' }
-      ];
-  }
+  ngOnInit() {}
 
   openNew() {
       this.employee = {
         user: {}
       };
-      this.submitted = false;
       this.productDialog = true;
   }
 
@@ -109,13 +88,11 @@ export class EmployeeComponent {
 
   hideDialog() {
       this.productDialog = false;
-      this.submitted = false;
       this.employee = {};
       this.cardImageBase64 = '';
   }
 
   saveProduct() {
-      this.submitted = true;
             this.employeeService.saveEmployee(this.employee).subscribe((data:any) => {
               this.employees[this.findArrayPlacement(data.id)] = data;
               this.employees = [...this.employees];
@@ -167,7 +144,6 @@ export class EmployeeComponent {
       };
       reader.readAsDataURL(fileInput.target.files[0]);
     }
-    console.log(this.cardImageBase64);
   }
 
   resetPassword(){

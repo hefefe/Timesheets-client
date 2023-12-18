@@ -1,29 +1,175 @@
-<div>
-  <p-table [value]="projects" [tableStyle]="{ 'min-width': '50rem' }" selectionMode="single" (onRowSelect)="test($event)">
-    <ng-template pTemplate="body" let-project>
-      <tr [pSelectableRow]="project">
-        <td >
-          <div class="flex align-items-center">
-            <img id="projectPhoto" src="data:image/png;base64,{{project.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 50px; height:50px; border-radius:4px" />
-             {{ project.name }}
-            </div>
+<div class="grid">
+  <div class="col-12">
+    <div class="ml-4 mt-4">
+      <h1>Projects</h1>
+    </div>
+    <div class="card px-4 py-4">
+      <div class="my-2">
+                      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-outlined p-button-success mr-2" (click)="openNew()"></button>
+                  </div>
+      <p-table #dt [value]="projects" responsiveLayout="scroll" [rows]="10" [paginator]="true"
+        [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        selectionMode="multiple" [rowHover]="true" dataKey="id" (onRowSelect)="test($event)">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>project name</th>
+            <th>key</th>
+            <th>Lead</th>
+            <th>sprint duration</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-project>
+          <tr [pSelectableRow]="project">
+            <td style="width:15%;">
+              <div class="flex align-items-center">
+                <img id="projectPhoto" src="data:image/png;base64,{{project.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 50px; height:50px; border-radius:4px" />
+                 {{ project.name }}
+                </div>
+                </td>
+            <td style="width:15%;">{{ project.key }}</td>
+            <td style="width:20%;">
+              <div class="flex align-items-center">
+                <img id="leadPhoto" src="data:image/png;base64,{{project.person.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 50px; height:50px; border-radius:100%" />
+                {{project.person.firstName}}
+                {{project.person.lastName}}
+              </div>
             </td>
-        <td>{{ project.key }}</td>
-        <td>
-          <div class="flex align-items-center">
-            <img id="leadPhoto" src="data:image/png;base64,{{project.person.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 50px; height:50px; border-radius:100%" />
-            {{project.person.firstName}}
-            {{project.person.lastName}}
+            <td style="width:20%;">{{ project.sprintDuration}}</td>
+            <td style="width:20%;">
+              <div>
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success m-1" (click)="editProject(project)"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-warning m-1" (click)="deleteProject(project)"></button>
+              </div>
+          </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <p-dialog [(visible)]="deleteProjectDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+      <div class="flex align-items-center justify-content-center">
+          <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+          <span *ngIf="projects">Are you sure you want to delete <b>{{project.name}}</b>?</span>
+      </div>
+      <ng-template pTemplate="footer">
+          <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProjectDialog = false"></button>
+          <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+      </ng-template>
+  </p-dialog>
+
+  <p-dialog [(visible)]="projectDialog" [style]="{width: '55vw'}" header="Project details" [modal]="true" class="p-fluid" [closable]="false">
+    <ng-template pTemplate="content">
+      <div class="container flex flex-row">
+      <div class="col">
+      <div class="formgrid grid border-right-1 border-primary pr-2">
+        <div class="field col">
+          <label htmlFor="name" style="margin-left: -8px;">Name</label>
+          <div class="formgrid grid">
+          <div class="image-upload border-2 surface-border flex align-items-center justify-content-center container border-round-md" [style]="{width: '45px', height: '45px'}">
+            <input #fileButton type='file' class="btn" (change)="CreateBase64String($event);" style="display:none;"/>
+            <button *ngIf="!cardImageBase64" pButton pRipple icon="pi pi-plus" (click)="fileButton.click()" style="position: absolute;" [style]="{width: '43px', height: '43px'}"></button>
+            <img id="blah" *ngIf="cardImageBase64" [src]="cardImageBase64" alt="your image" [style]="{width: '43px', height: '43px'}" class="border-round-md"/>
           </div>
-        </td>
-        <td>{{ project.sprintDuration}}</td>
-        <td>
-          <div>
-              <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success m-1"></button>
-              <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-warning m-1"></button>
+          <div class="col mr-0 pr-0">
+          <input type="text" pInputText id="name" [(ngModel)]="project.name"/>
           </div>
-      </td>
-      </tr>
+        </div>
+        </div>
+        <div class="field w-full pb-2">
+          <label htmlFor="email2">Start of sprint</label>
+          <p-calendar [(ngModel)]="project.endOfSprint" [showTime]="true" [showSeconds]="true" appendTo="body" [disabled]="editingProject"></p-calendar>
+        </div>
+        <div class="field w-full pb-2">
+          <label htmlFor="email2">Workflow</label>
+          <p-chips [(ngModel)]="project.workflow"></p-chips>
+        </div>
+        <div class="field w-full">
+          <label htmlFor="name2">Sprint duration</label>
+          <p-dropdown appendTo="body" [options]="sprintDuration" [(ngModel)]="project.sprintDuration" [showClear]="true" placeholder="Select sprint duration"></p-dropdown>
+        </div>
+        <div class="field w-full">
+          <label for="points">Team Leader</label>
+          <p-dropdown appendTo="body" [options]="projectMakers" [(ngModel)]="project.person" [showClear]="true" placeholder="Select team Leader">
+            <ng-template pTemplate="selectedItem">
+              <div class="item" *ngIf="project.person">
+                <div class="flex align-items-center">
+                  <img id="leadPhoto" src="data:image/png;base64,{{project.person.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 30px; height:30px; border-radius:100%" />
+                  {{project.person.firstName}}
+                  {{project.person.lastName}}
+                </div>
+              </div>
+          </ng-template>
+          <ng-template let-teamLeader pTemplate="item">
+            <div class="flex align-items-center">
+              <img id="leadPhoto" src="data:image/png;base64,{{teamLeader.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 30px; height:30px; border-radius:100%" />
+              {{teamLeader.firstName}}
+              {{teamLeader.lastName}}
+            </div>
+          </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+      <div class="col ml-2">
+        <div class="formgrid grid">
+          <div class="field col pl-0 ml-0">
+            <label htmlFor="name2">First name</label>
+            <input type="text" pInputText id="name" [(ngModel)]="searchQuery.firstName" (ngModelChange)="searchSubject.next($event)"/>
+          </div>
+          <div class="field col">
+            <label htmlFor="email2">Last name</label>
+            <input type="text" pInputText id="name" [(ngModel)]="searchQuery.lastName" (ngModelChange)="searchSubject.next($event)"/>
+          </div>
+      </div>
+      <div class="formgrid grid">
+        <div class="field col-6 pl-0 ml-0">
+          <label htmlFor="name2">Experience</label>
+          <p-multiSelect appendTo="body" [options]="experience" [(ngModel)]="searchQuery.experience" [showClear]="true" placeholder="Select experience" (ngModelChange)="searchSubject.next($event)"></p-multiSelect>
+        </div>
+        <div class="field col-6">
+          <label htmlFor="email2">Position</label>
+          <p-multiSelect appendTo="body" [options]="position" [(ngModel)]="searchQuery.position" [showClear]="true" placeholder="Select position" (ngModelChange)="searchSubject.next($event)"></p-multiSelect>
+        </div>
+    </div>
+    <div>
+      <p-table [value]="employees" [(selection)]="employeesInProject" [scrollable]="true" scrollHeight="19rem" [tableStyle]="{'min-width': '25rem'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>Employee</th>
+                <th>Position</th>
+                <th>Experience</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-employee>
+            <tr>
+                <td>
+                    <p-tableCheckbox [value]="employee"></p-tableCheckbox>
+                </td>
+                <td>
+                  <div class="flex align-items-center">
+                  <img id="leadPhoto" src="data:image/png;base64,{{employee.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 30px; height:30px; border-radius:100%" />
+                  {{employee.firstName}}
+                  {{employee.lastName}}
+                </div>
+              </td>
+                <td>{{employee.experience}}</td>
+                <td>{{employee.position}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+    </div>
+  </div>
     </ng-template>
-  </p-table>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProject()"></button>
+    </ng-template>
+</p-dialog>
+  </div>
 </div>

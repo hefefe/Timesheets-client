@@ -34,6 +34,8 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageService } from 'primeng/api';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { TasksComponent } from './components/tasks/tasks.component';
+import { ChipsModule } from 'primeng/chips';
+import {MultiSelectModule} from 'primeng/multiselect';
 
 @NgModule({
   declarations: [
@@ -72,7 +74,9 @@ import { TasksComponent } from './components/tasks/tasks.component';
         InputNumberModule,
         DialogModule,
         CommonModule,
-        MessagesModule
+        MessagesModule,
+        ChipsModule,
+        MultiSelectModule
   ],
   providers: [
     MessageService,

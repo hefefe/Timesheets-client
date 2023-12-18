@@ -9,8 +9,6 @@ export interface PersonInterface {
 
   middleName?: string;
 
-  sex?: string;
-
   dateOfBirth?: Date;
 
   dateOfEmployment?: Date;
@@ -23,25 +21,9 @@ export interface PersonInterface {
 
   hourlyPay?: number;
 
-  address?: PersonAddress;
-
   phone?: string;
 
   user?: PersonUser;
-}
-
-export interface PersonAddress {
-  id?: number;
-
-  streetName?: string;
-
-  city?: string;
-
-  homeNumber?: string;
-
-  zipCode?: string;
-
-  country?: string;
 }
 
 export interface PersonUser {
@@ -53,6 +35,16 @@ export interface PersonUser {
   tempPassword?: string;
 
   roles?: string;
+}
+
+export interface ISearchPerson {
+  firstName?: string;
+
+  lastName?: string;
+
+  experience?: Array<Experience>;
+
+  position?: Array<Position>;
 }
 
 export interface Tokens {

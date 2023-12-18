@@ -1,12 +1,15 @@
 <div class="grid">
   <div class="col-12">
-    <div class="card px-6 py-6">
+    <div class="ml-4 mt-4">
+      <h1>Employees</h1>
+    </div>
+    <div class="card px-4 py-4">
       <div class="my-2">
                       <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-outlined p-button-success mr-2" (click)="openNew()"></button>
                       <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-outlined p-button-danger mr-2" (click)="deleteSelectedProducts()" [disabled]="!selectedEmployee || !selectedEmployee.length"></button>
                       <button pButton pRipple label="Reset password" icon="pi pi-refresh" class="p-button-outlined p-button-warning" (click)="resetPassword()" [disabled]="!selectedEmployee || !selectedEmployee.length"></button>
                   </div>
-      <p-table #dt [value]="employees" [columns]="cols" responsiveLayout="scroll" [rows]="10"
+      <p-table #dt [value]="employees" responsiveLayout="scroll" [rows]="10"
         [globalFilterFields]="['firstName','experience','position','hourlyPay','workDuringWeekInHours']" [paginator]="true"
         [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedEmployee"
@@ -130,7 +133,7 @@
                 <label htmlFor="name2">experience</label>
                 <p-dropdown appendTo="body" [options]="experience" [(ngModel)]="employee.experience" [showClear]="true" placeholder="select experience level"></p-dropdown>
               </div>
-              <div class="field w-full pb-2">
+              <div class="field w-full">
                 <label htmlFor="email2">position</label>
                 <p-dropdown appendTo="body" [options]="position" [(ngModel)]="employee.position" [showClear]="true" placeholder="select position"></p-dropdown>
               </div>
