@@ -63,7 +63,7 @@ export enum Position {
   BACKEND = 'backend',
   FRONTEND = 'frontend',
   DEVOPS = 'devops',
-  QA = 'quality assurance',
+  TESTER = 'tester',
   TEAM_LEADER = 'team leader',
   MANAGER = 'manager'
 }

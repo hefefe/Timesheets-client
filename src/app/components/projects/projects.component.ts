@@ -90,6 +90,7 @@ openNew(){
   this.project = {};
   this.projectDialog = true;
   this.projectService.getProjectMakers().then(data => this.projectMakers = data);
+  this.project.endOfSprint = this.project.endOfSprint;
   this.project.workflow = ["to do", "implementing", "done"];
   this.projectService.searchPerson(this.searchQuery).subscribe((data:any)=>{this.employees = data;});
 }
@@ -115,12 +116,12 @@ saveProject() {
 }
 
 findArrayPlacement(id:number){
-  for (let i = 0; i < this.employees.length; i++) {
-    if (this.employees[i].id == id){
+  for (let i = 0; i < this.projects.length; i++) {
+    if (this.projects[i].id == id){
       return i;
     }
   }
-  return this.employees.length;
+  return this.projects.length;
 }
 
 hideDialog(){
@@ -132,14 +133,13 @@ hideDialog(){
 }
 
 editProject(project: IProject){
-    this.editingProject = true;
     this.project = { ...project };
     this.project.person = Object.assign({}, this.project.person);
-    console.log(project.id);
     this.projectService.getEmployeesInProject(project.id!).then((data:any) => this.employeesInProject = data);
     this.projectService.getProjectMakers().then(data => this.projectMakers = data);
     this.projectService.searchPerson(this.searchQuery).subscribe((data:any)=>{this.employees = data;});
     this.projectDialog = true;
+    this.editingProject = true;
 }
 
 CreateBase64String(fileInput: any) {
