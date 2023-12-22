@@ -1,1 +1,43 @@
-<p>tasks works!</p>
+<div class="grid">
+  <div class="col-12">
+    <div class="ml-4 mt-4 flex flex-column">
+    <div class="flex flex-row">
+      <button pButton pRipple icon="pi pi-arrow-left" class="p-button-text p-button-primary mr-2 border-top-1 border-bottom-1 border-primary border-noround" (click)="backClicked()"></button>
+      <span class="text-3xl font-medium">{{projectDetails.name}}</span>
+    </div>
+    <div class="flex flex-column mt-3">
+      <p class="text-base font-light m-0 p-0">End of sprint: {{date}}</p>
+      <p class="text-base font-light m-0 p-0">Iteration: {{projectDetails.sprintNumber}}</p>
+    </div>
+  </div>
+    <div class="flex flex-row no-wrap justify-content-center align-items-stretch">
+      <div class="col-2" *ngFor="let taskGroup of taskGroups;">
+      <p-fieldset legend="{{taskGroup.workflowDTO?.name}}" [style]="{height:'100%'}">
+        <p-card header="Advanced Card" subheader="Card Subheader" class="mb-2" [style]="{
+          border: '2px solid #333333',
+          borderRadius: '5px',
+          'box-shadow': '3px 3px 10px #111',
+          color: 'white',
+          padding: '10px',
+          margin:'0px 0px 10px 0px'
+      }">
+          <ng-template pTemplate="header">
+            <p>
+              Lorem ipsum dolor sit amet
+          </p>
+          </ng-template>
+          <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+              quas!
+          </p>
+          <ng-template pTemplate="footer">
+              <p-button label="Save" icon="pi pi-check"></p-button>
+              <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{ 'margin-left': '.5em' }"></p-button>
+          </ng-template>
+      </p-card>
+    </p-fieldset>
+    </div>
+    </div>
+  </div>
+</div>
+

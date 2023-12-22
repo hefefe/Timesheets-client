@@ -36,6 +36,8 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { ChipsModule } from 'primeng/chips';
 import {MultiSelectModule} from 'primeng/multiselect';
+import { CardModule } from 'primeng/card';
+import { FieldsetModule } from 'primeng/fieldset';
 
 @NgModule({
   declarations: [
@@ -60,23 +62,25 @@ import {MultiSelectModule} from 'primeng/multiselect';
     PasswordModule,
     SidebarModule,
     TableModule,
-        FileUploadModule,
-        FormsModule,
-        ButtonModule,
-        RippleModule,
-        ToastModule,
-        ToolbarModule,
-        RatingModule,
-        InputTextModule,
-        InputTextareaModule,
-        DropdownModule,
-        RadioButtonModule,
-        InputNumberModule,
-        DialogModule,
-        CommonModule,
-        MessagesModule,
-        ChipsModule,
-        MultiSelectModule
+    FileUploadModule,
+    FormsModule,
+    ButtonModule,
+    RippleModule,
+    ToastModule,
+    ToolbarModule,
+    RatingModule,
+    InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
+    RadioButtonModule,
+    InputNumberModule,
+    DialogModule,
+    CommonModule,
+    MessagesModule,
+    ChipsModule,
+    MultiSelectModule,
+    CardModule,
+    FieldsetModule
   ],
   providers: [
     MessageService,
