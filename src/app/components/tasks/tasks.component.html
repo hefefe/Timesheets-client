@@ -16,13 +16,14 @@
     <div class="flex flex-row no-wrap justify-content-evenly align-items-stretch">
       <div *ngFor="let taskGroup of taskGroups;" style="width: 12.5%;" class="my-4">
       <p-fieldset legend="{{taskGroup.workflowDTO?.name}}" [style]="{height:'100%'}">
-        <p-card *ngFor="let task of taskGroup.tasks;" class="mb-2" [style]="{
+        <p-card *ngFor="let task of taskGroup.tasks;" class="mb-2" (click)="clickTask(task)" [style]="{
           border: '2px solid #333333',
           borderRadius: '5px',
           'box-shadow': '3px 3px 10px #111',
           color: 'white',
           padding: '10px',
-          margin:'0px 0px 10px 0px'
+          margin:'0px 0px 10px 0px',
+          cursor: 'pointer'
       }">
           <ng-template pTemplate="header">
             <div class="flex flex-row justify-content-between">
@@ -43,12 +44,12 @@
           <ng-template pTemplate="footer">
             <div class="flex flex-row justify-content-between" style="margin-top: -5%;">
               <div class="flex flex-row justify-content-center align-items-center">
-                <div>
-                  <img id="projectPhoto" src="data:image/png;base64,{{task.person?.photo}}" onerror="this.src='../../../assets/img/defaultProjectImage.png';" class="shadow-4 mr-2" style="width: 35px; height:35px; border-radius:4px" />
+                <div *ngIf="task.person">
+                  <img id="projectPhoto" src="data:image/png;base64,{{task.person.photo}}" onerror="this.src='../../../assets/img/defaultProjectImage.png';" class="shadow-4 mr-2" style="width: 35px; height:35px; border-radius:4px" />
                 </div>
-                <div class="flex flex-column justify-content-start align-items-start">
-                  <p class="m-0 p-0">{{task.person?.firstName}}</p>
-                  <p class="m-0 p-0">{{task.person?.lastName}}</p>
+                <div class="flex flex-column justify-content-start align-items-start" *ngIf="task.person">
+                  <p class="m-0 p-0">{{task.person.firstName}}</p>
+                  <p class="m-0 p-0">{{task.person.lastName}}</p>
                 </div>
               </div>
               <div class="flex flex-row justify-content-center align-items-center">
@@ -61,5 +62,130 @@
     </div>
     </div>
   </div>
+  <p-dialog [(visible)]="createTaskDialog" [style]="{width: '450px'}" header="Create task" [modal]="true" class="p-fluid" [closable]="false">
+    <ng-template pTemplate="content">
+      <div class="flex flex-column align-items-center justify-content-center">
+        <div class="field w-full">
+          <label htmlFor="name2">Title</label>
+          <input type="text" pInputText id="name" [(ngModel)]="task.name"/>
+        </div>
+        <div class="field w-full">
+          <label htmlFor="name2">Stroy points</label>
+          <input type="number" pInputText id="name" [(ngModel)]="task.storyPoints" min="1" max="100" step="1"/>
+        </div>
+        <div class="field w-full">
+          <label for="points">Task type</label>
+          <p-dropdown appendTo="body" [options]="taskTypes" [(ngModel)]="task.taskType" [showClear]="true" placeholder="Select task type">
+            <ng-template pTemplate="selectedItem">
+              <div class="item flex flex-row justify-content-start align-items-center" *ngIf="task.taskType" >
+                  <i class="pi {{task.taskType.icon}} mr-1" [ngStyle]="{color: task.taskType.color}"></i>
+                  {{task.taskType.name}}
+              </div>
+          </ng-template>
+          <ng-template let-taskType pTemplate="item">
+            <div class="flex flex-row justify-content-start align-items-center">
+              <i class="pi {{taskType.icon}} mr-1" [ngStyle]="{color: taskType.color}"></i>
+              {{taskType.name}}
+            </div>
+          </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="field w-full">
+          <label for="points">Assignee</label>
+          <p-dropdown appendTo="body" [options]="personsInProject" [(ngModel)]="task.person" [showClear]="true" placeholder="Select assignee">
+            <ng-template pTemplate="selectedItem">
+              <div class="item" *ngIf="task.person">
+                <div class="flex align-items-center">
+                  <img id="leadPhoto" src="data:image/png;base64,{{task.person.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 30px; height:30px; border-radius:100%" />
+                  {{task.person.firstName}}
+                  {{task.person.lastName}}
+                </div>
+              </div>
+          </ng-template>
+          <ng-template let-person pTemplate="item">
+            <div class="flex align-items-center">
+              <img id="leadPhoto" src="data:image/png;base64,{{person.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 30px; height:30px; border-radius:100%" />
+              {{person.firstName}}
+              {{person.lastName}}
+            </div>
+          </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="field w-full h-full">
+          <label htmlFor="email2">description</label>
+          <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="task.description"></textarea>
+        </div>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveTask()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="infoDialog" [style]="{width: '450px'}" [modal]="true" class="p-fluid" [closable]="false">
+  <ng-template pTemplate="header">
+    <div class="flex flex-row justify-content-between align-items-center w-full">
+    <div>
+      <span>{{projectDetails.key}}-{{task.key}}</span>
+    </div>
+    <div>
+      <p-dropdown appendTo="body" [options]="workflow" [(ngModel)]="selectedWorkflow" [showClear]="false" (ngModelChange)="searchSubject.next($event)">
+        <ng-template pTemplate="selectedItem">
+          {{selectedWorkflow.name}}
+      </ng-template>
+      <ng-template let-workflow pTemplate="item">
+        {{workflow.name}}
+      </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="flex flex-row justify-content-end align-items-center">
+      {{task.taskType?.name}}
+      <i class="pi {{task.taskType?.icon}} ml-1" [ngStyle]="{color: task.taskType?.color}"></i>
+    </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="content">
+    <div>
+    <div>
+      <p class="text-3xl font-semibold text-left m-0 p-0">{{task.name}}</p>
+    </div>
+    <div>
+      <div class="mt-4">
+        <p class="text-lg font-bold text-left m-0 p-0">assigned to:</p>
+      </div>
+    <div class="flex flex-row justify-content-start align-items-center">
+      <div *ngIf="task.person">
+        <img id="projectPhoto" src="data:image/png;base64,{{task.person.photo}}" onerror="this.src='../../../assets/img/defaultProjectImage.png';" class="shadow-4 mr-2 mt-3" style="width: 35px; height:35px; border-radius:4px" />
+      </div>
+        <p class="mr-1 p-0">{{task.person?.firstName}}</p>
+        <p class="m-0 p-0">{{task.person?.lastName}}</p>
+    </div>
+  </div>
+  <div class="mt-4">
+    <div>
+      <p class="text-lg font-bold text-left m-0 p-0">description:</p>
+    </div>
+    <div>
+      <p class="m-0 p-0 mt-2 text-justify">{{task.description}}</p>
+    </div>
+  </div>
+  </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="flex flex-row justify-content-between align-items-center w-full">
+      <div style="margin-left: -12px;">
+        <button pButton pRipple label="reject" icon="pi pi-trash" class="p-button-text p-button-danger" (click)="deleteTask()"></button>
+        <button pButton pRipple label="edit" icon="pi pi-pencil" class="p-button-text p-button-warning" (click)="editTask()"></button>
+      </div>
+      <div>
+        <button pButton pRipple label="Ok" icon="pi pi-check" class="p-button-text" (click)="hideDialog()" style="margin-right: -8px;"></button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
+
 </div>
 

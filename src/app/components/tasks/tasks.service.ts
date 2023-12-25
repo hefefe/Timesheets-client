@@ -23,15 +23,14 @@ export class TasksService {
   }
 
   setTaskWorkFlow(taskId:number, workFlowId:number){
-    let params = new HttpParams();
-    params.append('taskId', taskId);
-    params.append('workFlowId', workFlowId);
-    return this.http.put<ITask>(GlobalconstantsModule.apiURL + '/api/task', {params});
+    let params = new HttpParams()
+    .append('taskId', taskId)
+    .append('workFlowId', workFlowId);
+    return this.http.put<ITask>(GlobalconstantsModule.apiURL + '/api/task', params);
   }
 
   createTask(projectId:number, task:ITask){
-    let params = new HttpParams();
-    params.append('projectId', projectId);
+    let params = new HttpParams().append('projectId', projectId);
     return this.http.post(GlobalconstantsModule.apiURL+'/api/task', task, {params});
   }
 
