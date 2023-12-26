@@ -28,6 +28,7 @@ export class TasksComponent {
   editingTask:boolean = false;
   creatingTask:boolean = false;
   infoDialog:boolean = false;
+  deletingTask:boolean = false;
 
   searchSubject = new Subject<IWorkFlow>();
 
@@ -105,21 +106,61 @@ export class TasksComponent {
 
   saveTask(){
     if(this.editingTask){
-
+      this.taskService.createTask(this.id, this.task).subscribe((data:any)=> {
+        this.taskGroups.forEach((workflowArray:any) => {
+          var taskId:number = -1;
+          console.log(workflowArray.workflowDTO?.name, this.task.workflow);
+          if(workflowArray.workflowDTO?.name == this.task.workflow?.name){
+            for (let i = 0; i < workflowArray.tasks.length; i++) {
+              if (workflowArray.tasks[i].id == this.task.id){
+                taskId = i;
+              }
+            }
+            if(taskId != -1){
+            console.log(taskId);
+            workflowArray.tasks?.splice(taskId,1);
+          }
+          }
+        });
+        this.taskGroups.forEach(workflowArray => {
+          if(workflowArray.workflowDTO?.name == data.workflow?.name) {
+            workflowArray.tasks?.push(data!);
+          }
+        });
+      });
     }else if(this.creatingTask){
       this.taskService.createTask(this.id, this.task).subscribe((data:any) => this.taskGroups[0].tasks?.push(data));
     }
     this.createTaskDialog = false;
     this.creatingTask = false;
     this.editingTask = false;
-    this.task = {};
+    this.infoDialog = false;
   }
 
   deleteTask(){
-
+    this.deletingTask = true;
   }
 
+  confirmDelete(){
+    this.deletingTask = false;
+    this.infoDialog = false;
+    this.taskService.rejectTask(this.task.id!).subscribe();
+    this.taskGroups.forEach((workflowArray:any) => {
+      var taskId:number = -1;
+      if(workflowArray.workflowDTO?.name == this.task.workflow?.name){
+        for (let i = 0; i < workflowArray.tasks.length; i++) {
+          if (workflowArray.tasks[i].id == this.task.id){
+            taskId = i;
+          }
+        }
+        if(taskId != -1){
+        workflowArray.tasks?.splice(taskId,1);
+      }
+      }
+    });
+  }
   editTask(){
-
+    this.editingTask = true;
+    this.createTaskDialog = true;
   }
 }
