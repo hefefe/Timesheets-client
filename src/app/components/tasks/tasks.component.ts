@@ -20,6 +20,7 @@ export class TasksComponent {
   projectDetails:IProject = {};
   createTaskDialog: boolean = false;
   task:ITask = {};
+  infoTask:ITask = {};
 
   taskTypes:ITaskType[] = [];
   personsInProject:PersonInterface[] = [];
@@ -36,13 +37,13 @@ export class TasksComponent {
     this.searchSubject.pipe(
       distinctUntilChanged())
       .subscribe(() => {
-        if (this.selectedWorkflow != this.task.workflow){
-        this.taskService.setTaskWorkFlow(this.task.id!, this.selectedWorkflow.id!).subscribe((data:ITask)=>{
+        if (this.selectedWorkflow != this.infoTask.workflow){
+        this.taskService.setTaskWorkFlow(this.infoTask.id!, this.selectedWorkflow.id!).subscribe((data:ITask)=>{
           this.taskGroups.forEach((workflowArray:any) => {
             var taskId:number = -1;
-            if(workflowArray.workflowDTO?.name == this.task.workflow?.name){
+            if(workflowArray.workflowDTO?.name == this.infoTask.workflow?.name){
               for (let i = 0; i < workflowArray.tasks.length; i++) {
-                if (workflowArray.tasks[i].id == this.task.id){
+                if (workflowArray.tasks[i].id == this.infoTask.id){
                   taskId = i;
                 }
               }
@@ -99,7 +100,7 @@ export class TasksComponent {
   }
 
   clickTask(task:ITask){
-    this.task = task;
+    this.infoTask = task;
     this.selectedWorkflow = task.workflow!;
     this.infoDialog = true;
   }
@@ -109,15 +110,13 @@ export class TasksComponent {
       this.taskService.createTask(this.id, this.task).subscribe((data:any)=> {
         this.taskGroups.forEach((workflowArray:any) => {
           var taskId:number = -1;
-          console.log(workflowArray.workflowDTO?.name, this.task.workflow);
-          if(workflowArray.workflowDTO?.name == this.task.workflow?.name){
+          if(workflowArray.workflowDTO?.name == this.infoTask.workflow?.name){
             for (let i = 0; i < workflowArray.tasks.length; i++) {
-              if (workflowArray.tasks[i].id == this.task.id){
+              if (workflowArray.tasks[i].id == this.infoTask.id){
                 taskId = i;
               }
             }
             if(taskId != -1){
-            console.log(taskId);
             workflowArray.tasks?.splice(taskId,1);
           }
           }
@@ -144,12 +143,12 @@ export class TasksComponent {
   confirmDelete(){
     this.deletingTask = false;
     this.infoDialog = false;
-    this.taskService.rejectTask(this.task.id!).subscribe();
+    this.taskService.rejectTask(this.infoTask.id!).subscribe();
     this.taskGroups.forEach((workflowArray:any) => {
       var taskId:number = -1;
-      if(workflowArray.workflowDTO?.name == this.task.workflow?.name){
+      if(workflowArray.workflowDTO?.name == this.infoTask.workflow?.name){
         for (let i = 0; i < workflowArray.tasks.length; i++) {
-          if (workflowArray.tasks[i].id == this.task.id){
+          if (workflowArray.tasks[i].id == this.infoTask.id){
             taskId = i;
           }
         }
@@ -160,6 +159,7 @@ export class TasksComponent {
     });
   }
   editTask(){
+    this.task = JSON.parse(JSON.stringify(this.infoTask));
     this.editingTask = true;
     this.createTaskDialog = true;
   }
