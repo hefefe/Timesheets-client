@@ -1,4 +1,4 @@
-import { PersonInterface } from "./personInterface";
+import { PersonInterface } from "./person-Interface";
 
 export interface IProject{
   id?: number;

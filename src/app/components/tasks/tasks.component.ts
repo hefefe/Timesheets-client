@@ -2,7 +2,7 @@ import { TasksService } from './tasks.service';
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PersonInterface } from 'src/app/personInterface';
+import { PersonInterface } from 'src/app/person-Interface';
 import { IProject } from 'src/app/project-interface';
 import { ITask, ITaskGroup, ITaskType, IWorkFlow } from 'src/app/task-interface';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -84,7 +84,6 @@ export class TasksComponent {
   }
 
   convert(date: number[]): string {
-    console.log(date);
     return `${date[2]<10?'0'+date[2]:date[2]}-${date[1]<10?'0'+date[1]:date[1]}-${date[0]} ${date[3]<10?'0'+date[3]:date[3]}:${date[4]<10?'0'+date[4]:date[4]}:${date.length == 6?date[5]<10?'0'+date[5]:date[5]:'00'}`;
   }
 

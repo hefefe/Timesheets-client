@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { PersonInterface, Tokens } from 'src/app/personInterface';
+import { PersonInterface, Tokens } from 'src/app/person-Interface';
 import { AppServiceService } from './app-service.service';
 import { GlobalconstantsModule } from 'src/app/common/globalconstants.module';
 import { Router } from '@angular/router';

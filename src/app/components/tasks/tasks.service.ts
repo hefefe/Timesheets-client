@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { GlobalconstantsModule } from 'src/app/common/globalconstants.module';
-import { PersonInterface } from 'src/app/personInterface';
+import { PersonInterface } from 'src/app/person-Interface';
 import { IProject } from 'src/app/project-interface';
 import { ITask, ITaskGroup, ITaskType, IWorkFlow } from 'src/app/task-interface';
 

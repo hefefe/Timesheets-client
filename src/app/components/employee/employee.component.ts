@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { Experience, PersonInterface, Position } from 'src/app/personInterface';
+import { Experience, PersonInterface, Position } from 'src/app/person-Interface';
 import { EmployeeService } from './employee.service';
 
 @Component({

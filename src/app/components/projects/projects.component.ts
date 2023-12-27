@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IProject, SprintDurationType } from 'src/app/project-interface';
 import { ProjectsService } from './projects.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Experience, ISearchPerson, PersonInterface, Position } from 'src/app/personInterface';
+import { Experience, ISearchPerson, PersonInterface, Position } from 'src/app/person-Interface';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
