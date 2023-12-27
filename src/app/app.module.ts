@@ -38,6 +38,7 @@ import { ChipsModule } from 'primeng/chips';
 import {MultiSelectModule} from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
+import { TimeTrackerComponent } from './components/time-tracker/time-tracker.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { FieldsetModule } from 'primeng/fieldset';
     HomeComponent,
     EmployeeComponent,
     ProjectsComponent,
-    TasksComponent
+    TasksComponent,
+    TimeTrackerComponent
   ],
   imports: [
     BrowserModule,

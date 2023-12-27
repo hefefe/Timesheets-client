@@ -7,6 +7,7 @@ import { EmployeeComponent } from './components/employee/employee.component';
 import { loginGuard } from './components/timesheets-auth/login.guard';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { TasksComponent } from './components/tasks/tasks.component';
+import { TimeTrackerComponent } from './components/time-tracker/time-tracker.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
    children: [
     {path: 'employees', component: EmployeeComponent},
     {path: 'projects', component: ProjectsComponent},
-    {path: 'project/:id', component: TasksComponent}]
+    {path: 'project/:id', component: TasksComponent},
+    {path: 'timetracker', component: TimeTrackerComponent}]
   }
 ];
 

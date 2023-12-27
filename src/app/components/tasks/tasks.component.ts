@@ -56,6 +56,7 @@ export class TasksComponent {
           this.taskGroups.forEach(workflowArray => {
             if(workflowArray.workflowDTO?.name == data.workflow?.name) {
               workflowArray.tasks?.push(data!);
+              this.infoTask = data;
             }
           });
         });
@@ -81,8 +82,10 @@ export class TasksComponent {
   backClicked() {
     this._location.back();
   }
+
   convert(date: number[]): string {
-    return `${date[2]<10?'0'+date[2]:date[2]}-${date[1]<10?'0'+date[1]:date[1]}-${date[0]} ${date[3]}:${date[4]}:${date[5]}`;
+    console.log(date);
+    return `${date[2]<10?'0'+date[2]:date[2]}-${date[1]<10?'0'+date[1]:date[1]}-${date[0]} ${date[3]<10?'0'+date[3]:date[3]}:${date[4]<10?'0'+date[4]:date[4]}:${date.length == 6?date[5]<10?'0'+date[5]:date[5]:'00'}`;
   }
 
   openNew() {
