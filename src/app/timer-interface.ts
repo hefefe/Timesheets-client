@@ -1,6 +1,9 @@
+import { IProject } from "./project-interface";
+import { ITask } from "./task-interface";
+
 export interface ITimer{
 
-  Description?:string,
+  description?:string,
 
   taskId?:number
 }
@@ -18,6 +21,10 @@ export interface ITrackedData{
   description?:string,
 
   taskId?:number
+
+  taskName?: string;
+
+  projectKey?: string;
 }
 
 export interface ITimeTrackerHistory{
@@ -44,9 +51,9 @@ export interface IIsStarted{
 
   startedTime?: number[];
 
-  taskId?: number;
+  task?: ITask;
 
-  projectId?: number;
+  project?: IProject;
 
   description?: string;
 }

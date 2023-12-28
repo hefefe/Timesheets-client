@@ -39,6 +39,7 @@ import {MultiSelectModule} from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TimeTrackerComponent } from './components/time-tracker/time-tracker.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { TimeTrackerComponent } from './components/time-tracker/time-tracker.com
     EmployeeComponent,
     ProjectsComponent,
     TasksComponent,
-    TimeTrackerComponent
+    TimeTrackerComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,
