@@ -42,7 +42,6 @@ export class ProjectsComponent {
   searchQuery: ISearchPerson = {};
 
   searchSubject = new Subject<ISearchPerson>();
-  private readonly debounceTimeMs = 300;
 
   editingProject: boolean = false;
 
