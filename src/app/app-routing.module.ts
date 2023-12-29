@@ -8,6 +8,9 @@ import { loginGuard } from './components/timesheets-auth/login.guard';
 import { ProjectsComponent } from './components/projects/projects.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { TimeTrackerComponent } from './components/time-tracker/time-tracker.component';
+import { ReportsComponent } from './components/reports/reports.component';
+import { PersonReportsComponent } from './components/person-reports/person-reports.component';
+import { ProjectReportsComponent } from './components/project-reports/project-reports.component';
 
 const routes: Routes = [
   {
@@ -28,7 +31,11 @@ const routes: Routes = [
     {path: 'employees', component: EmployeeComponent},
     {path: 'projects', component: ProjectsComponent},
     {path: 'project/:id', component: TasksComponent},
-    {path: 'timetracker', component: TimeTrackerComponent}]
+    {path: 'timetracker', component: TimeTrackerComponent},
+    {path: 'reports', component: ReportsComponent, children: [
+      {path: 'person', component: PersonReportsComponent},
+      {path: 'project', component: ProjectReportsComponent},
+    ]}]
   }
 ];
 

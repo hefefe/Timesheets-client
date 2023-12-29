@@ -40,6 +40,9 @@ import { CardModule } from 'primeng/card';
 import { FieldsetModule } from 'primeng/fieldset';
 import { TimeTrackerComponent } from './components/time-tracker/time-tracker.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import { TabMenuModule } from 'primeng/tabmenu';
+import { PersonReportsComponent } from './components/person-reports/person-reports.component';
+import { ProjectReportsComponent } from './components/project-reports/project-reports.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +54,9 @@ import { ReportsComponent } from './components/reports/reports.component';
     ProjectsComponent,
     TasksComponent,
     TimeTrackerComponent,
-    ReportsComponent
+    ReportsComponent,
+    PersonReportsComponent,
+    ProjectReportsComponent
   ],
   imports: [
     BrowserModule,
@@ -84,7 +89,8 @@ import { ReportsComponent } from './components/reports/reports.component';
     ChipsModule,
     MultiSelectModule,
     CardModule,
-    FieldsetModule
+    FieldsetModule,
+    TabMenuModule
   ],
   providers: [
     MessageService,

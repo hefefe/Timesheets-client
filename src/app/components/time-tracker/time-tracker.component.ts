@@ -43,7 +43,6 @@ export class TimeTrackerComponent {
       .getIsTimerStarted()
       .subscribe((data: IIsStarted) => {
         if (data.startedTime != undefined) {
-          console.log(data);
           this.startedData = data;
           Object.keys(data.project! || {}).length === 0 ? null : this.timeTrackerService.getTasks(this.startedData.project!.id!).subscribe((data:any)=> this.tasks = data);
           this.startedTimer = true;
@@ -56,7 +55,7 @@ export class TimeTrackerComponent {
         distinctUntilChanged())
         .subscribe(() => {
           this.tasks = [];
-          this.timeTrackerService.getTasks(this.startedData.project!.id!).subscribe((data:any)=> this.tasks = data)
+          this.timeTrackerService.getTasks(this.startedData.project!.id!).subscribe((data:any)=> this.tasks = data);
         });
   }
 
