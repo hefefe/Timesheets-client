@@ -38,7 +38,7 @@ export interface IProjectStatistics{
 
   velocity?: number;
 
-  MoneySpent?: number;
+  moneySpent?: number;
 
   numberOfEmployees?: number;
 
@@ -58,7 +58,7 @@ export interface ITaskCompletedByType{
 }
 
 export interface ISprintCompletion{
-  Committed?: number;
+  committed?: number;
 
   uncommitted?: number;
 
@@ -66,11 +66,11 @@ export interface ISprintCompletion{
 }
 
 export interface IBurnDown{
-  Committed?: number;
+  committed?: number;
 
   uncommitted?: number;
 
-  date?: Number[];
+  date?: number[];
 }
 
 export interface IDatePlaceholder{
