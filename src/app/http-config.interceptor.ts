@@ -35,7 +35,10 @@ export class HttpConfigInterceptor implements HttpInterceptor {
           if(event.status >= 200 && event.status < 300 && (req||request).method!='GET'){
             if((req||request).url != "http://localhost:8080/api/person/search"
             && (req||request).url != "http://localhost:8080/api/person/photo"
-            && (req||request).url != "http://localhost:8080/api/project/photo"){
+            && (req||request).url != "http://localhost:8080/api/project/photo"
+            && (req||request).url != "http://localhost:8080/api/timetrack/history"
+            && (req||request).url != "http://localhost:8080/api/statistics/person"
+            && (req||request).url != "http://localhost:8080/api/statistics/project"){
               this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Task done succesfully', life: 3000 });
             }
           }

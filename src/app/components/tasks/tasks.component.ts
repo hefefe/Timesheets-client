@@ -69,7 +69,7 @@ export class TasksComponent {
       this.id = +params['id'];
     });
     this.taskService.getProjectInfo(this.id).subscribe((data:any) => {this.projectDetails = data; this.date = this.convert(data.endOfSprint);});
-    this.taskService.getTasksForProject(this.id).subscribe((data:any) => this.taskGroups = data);
+    this.taskService.getTasksForProject(this.id).subscribe((data:any) => {this.taskGroups = data; console.log(data)});
     this.taskService.getEmployeesInProject(this.id).subscribe((data:any) => this.personsInProject = data)
     this.taskService.getTaskTypes().subscribe((data:any) => this.taskTypes = data);
     this.taskService.getProjectWorkflow(this.id).subscribe((data:any)=> this.workflow = data);

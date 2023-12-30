@@ -14,11 +14,18 @@ export class PersonReportsComponent {
   dates: IDatePlaceholder[] = [];
   persons: PersonInterface[] = [];
   model: IIdFromTo = {};
+  colors:string[]=[];
   selectedDates: IDatePlaceholder = {};
   selectedPerson: PersonInterface = {};
   statistics:IPersonStatistics = {};
   history: IHistoryWithTotalTime = {};
+  name:string = '';
 
+  data: any;
+  options: any;
+
+  dataLine: any;
+  optionsLine: any;
   constructor(private personReportsService: PersonReportsService){}
 
   ngOnInit(){
@@ -59,7 +66,92 @@ export class PersonReportsComponent {
     this.model.from = this.selectedDates.from;
     this.model.to = this.selectedDates.to;
 
-    this.personReportsService.getPersonStatistics(this.model).subscribe((data:any) => this.statistics = data);
+    this.personReportsService.getPersonStatistics(this.model).subscribe((data:any) => {this.statistics = data;
+      this.name = this.selectedDates.name!;
+
+      for(let i=0;i<this.statistics.storyPointsDone?.length!;i++){
+        this.colors.push('#'+Math.floor(Math.random()*16777215).toString(16));
+  }
+
+      const documentStyle = getComputedStyle(document.documentElement);
+      const textColor = documentStyle.getPropertyValue('--text-color');
+      const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+          this.data = {
+              labels: this.statistics.tasksAndHours?.map(data => data.taskName),
+              datasets: [
+                  {
+                      data: this.statistics.tasksAndHours?.map(data => data.timeOfCompletion),
+                      backgroundColor: this.colors
+                  }
+              ]
+          };
+
+          this.options = {
+              plugins: {
+                  legend: {
+                      labels: {
+                          usePointStyle: true,
+                          color: textColor
+                      }
+                  }
+              }
+          };
+
+          this.dataLine = {
+            labels: this.statistics.storyPointsDone?.map(data => data.date![2]),
+            datasets: [
+                {
+                    label: 'Story points done',
+                    data: this.statistics.storyPointsDone?.map(data => data.storyPoints),
+                    fill: false,
+                    borderColor: documentStyle.getPropertyValue('--blue-500'),
+                    tension: 0
+                }
+            ]
+        };
+
+        this.optionsLine = {
+            maintainAspectRatio: false,
+            aspectRatio: 0.6,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    },
+                    title: {
+                      display: true,
+                      text: 'Day of month'
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: textColorSecondary
+                    },
+                    grid: {
+                        color: surfaceBorder,
+                        drawBorder: false
+                    },
+                    title: {
+                      display: true,
+                      text: 'Story points done'
+                    }
+                }
+            }
+        };
+    });
     this.personReportsService.getPErsonHistory(this.model).subscribe((data: any) => this.history = data);
   }
 

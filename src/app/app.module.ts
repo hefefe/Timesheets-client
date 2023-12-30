@@ -43,6 +43,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { PersonReportsComponent } from './components/person-reports/person-reports.component';
 import { ProjectReportsComponent } from './components/project-reports/project-reports.component';
+import { ChartModule } from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { ProjectReportsComponent } from './components/project-reports/project-re
     MultiSelectModule,
     CardModule,
     FieldsetModule,
-    TabMenuModule
+    TabMenuModule,
+    ChartModule
   ],
   providers: [
     MessageService,
