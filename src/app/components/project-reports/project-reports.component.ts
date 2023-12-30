@@ -27,22 +27,22 @@ export class ProjectReportsComponent {
     if(date.getDate() <= 15){
       var biweekly: IDatePlaceholder = {
         name:'half-monthly',
-        from: new Date(date.getFullYear(), date.getMonth(), 1),
-        to: new Date(date.getFullYear(), date.getMonth(), 15)
+        from: new Date(date.getFullYear(), date.getMonth(), 2),
+        to: new Date(date.getFullYear(), date.getMonth(), 16)
       }
       this.dates.push(biweekly);
     }else{
       var biweekly: IDatePlaceholder = {
         name:'half-monthly',
-        from: new Date(date.getFullYear(), date.getMonth(), 16),
-        to: new Date(date.getFullYear(), date.getMonth() + 1, 0)
+        from: new Date(date.getFullYear(), date.getMonth(), 17),
+        to: new Date(date.getFullYear(), date.getMonth() + 1, 1)
       }
       this.dates.push(biweekly);
     }
     var monthly: IDatePlaceholder = {
       name:'monthly',
-        from: new Date(date.getFullYear(), date.getMonth(), 1),
-        to: new Date(date.getFullYear(), date.getMonth() + 1, 0)
+        from: new Date(date.getFullYear(), date.getMonth(), 2),
+        to: new Date(date.getFullYear(), date.getMonth() + 1, 1)
     }
     this.dates.push(monthly);
   }

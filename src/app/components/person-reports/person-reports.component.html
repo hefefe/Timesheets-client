@@ -1,7 +1,45 @@
 <div class="grid">
   <div class="col-12">
     <div class="ml-4 mt-4">
-      <h1>test test test</h1>
+      <div class="flex flex-row align-items-center justify-content-start">
+        <div>
+          <p-dropdown appendTo="body" [options]="persons" [(ngModel)]="selectedPerson" placeholder="Select team Leader" class="p-inputtext-lg w-full">
+            <ng-template pTemplate="selectedItem">
+              <div class="item" *ngIf="selectedPerson.user">
+                <div class="flex align-items-center">
+                  <img id="leadPhoto" src="data:image/png;base64,{{selectedPerson.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 25px; height:25px; border-radius:100%" />
+                  {{selectedPerson.firstName}}
+                  {{selectedPerson.lastName}}
+                </div>
+              </div>
+          </ng-template>
+          <ng-template let-person pTemplate="item">
+            <div class="flex align-items-center">
+              <img id="leadPhoto" src="data:image/png;base64,{{person.photo}}" onerror="this.src='../../../assets/img/user.png';" class="shadow-4 mr-2" style="width: 25px; height:25px; border-radius:100%" />
+              {{person.firstName}}
+              {{person.lastName}}
+            </div>
+          </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="ml-2">
+          <p-dropdown appendTo="body" [style]="{width:'100%'}" [options]="dates" [(ngModel)]="selectedDates" class="p-inputtext-lg w-full">
+            <ng-template pTemplate="selectedItem">
+              <div class="item flex flex-row justify-content-start align-items-center" *ngIf="selectedDates" >
+                  {{selectedDates.name}}
+              </div>
+          </ng-template>
+          <ng-template let-date pTemplate="item">
+            <div class="flex flex-row justify-content-start align-items-center">
+              {{date.name}}
+            </div>
+          </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="h-full ml-2">
+          <p-button size="large" pRipple icon="pi pi-fw pi-search" class="p-button-solid" label="Show statistics" (click)="getStats()" [style]="{height: '56px'}"></p-button>
+        </div>
+      </div>
     </div>
     <div class="card px-4 py-4 flex flex-row align-items-center justify-content-between">
       <div style="width:15%">
@@ -9,25 +47,135 @@
           border: '2px solid #333333',
           borderRadius: '5px',
           'box-shadow': '3px 3px 10px #111',
-          color: 'white',
           padding: '10px',
           margin:'0px 0px 10px 0px',
-          cursor: 'pointer'
       }">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Orders</span>
-                    <div class="text-900 font-medium text-xl">152</div>
+                    <span class="block text-500 font-medium mb-3">Overtime ration</span>
+                    <div class="text-900 font-medium text-xl">{{statistics.overtimeRatio || '0.00' | number : '1.2-2'}}%</div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-shopping-cart text-blue-500 text-xl"></i>
+                <div class="flex align-items-center justify-content-center bg-primary border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                    <i class="pi pi-chevron-circle-down text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">24 new </span>
-            <span class="text-500">since last visit</span>
+            <span class="text-primary-500 font-medium">{{selectedDates.name}} data</span>
         </div>
     </div>
-
+    <div style="width:15%">
+      <div class="card mb-0" [style]="{
+        border: '2px solid #333333',
+        borderRadius: '5px',
+        'box-shadow': '3px 3px 10px #111',
+        padding: '10px',
+        margin:'0px 0px 10px 0px',
+    }">
+          <div class="flex justify-content-between mb-3">
+              <div>
+                  <span class="block text-500 font-medium mb-3">Completion rate</span>
+                  <div class="text-900 font-medium text-xl">{{statistics.completionRate || '0.00' | number : '1.2-2'}}%</div>
+              </div>
+              <div class="flex align-items-center justify-content-center bg-primary border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                  <i class="pi pi-arrow-up-right text-xl"></i>
+              </div>
+          </div>
+          <span class="text-primary-500 font-medium">{{selectedDates.name}} data</span>
+      </div>
+  </div>
+  <div style="width:15%">
+    <div class="card mb-0" [style]="{
+      border: '2px solid #333333',
+      borderRadius: '5px',
+      'box-shadow': '3px 3px 10px #111',
+      padding: '10px',
+      margin:'0px 0px 10px 0px',
+  }">
+        <div class="flex justify-content-between mb-3">
+            <div>
+                <span class="block text-500 font-medium mb-3">Years of emplyment</span>
+                <div class="text-900 font-medium text-xl">{{statistics.yearsOfEmployment || '0'}} years</div>
+            </div>
+            <div class="flex align-items-center justify-content-center bg-primary border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                <i class="pi pi-id-card text-xl"></i>
+            </div>
+        </div>
+        <span class="text-secondary-500 font-medium">general data</span>
+    </div>
+</div>
+<div style="width:15%">
+  <div class="card mb-0" [style]="{
+    border: '2px solid #333333',
+    borderRadius: '5px',
+    'box-shadow': '3px 3px 10px #111',
+    padding: '10px',
+    margin:'0px 0px 10px 0px',
+}">
+      <div class="flex justify-content-between mb-3">
+          <div>
+              <span class="block text-500 font-medium mb-3">Pay</span>
+              <div class="text-900 font-medium text-xl">{{statistics.pay || '0.00' | number : '1.2-2'}} PLN</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-primary border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+              <i class="pi pi-money-bill text-xl"></i>
+          </div>
+      </div>
+      <span class="text-primary-500 font-medium">{{selectedDates.name}} data</span>
+  </div>
+</div>
+<div style="width:15%">
+  <div class="card mb-0" [style]="{
+    border: '2px solid #333333',
+    borderRadius: '5px',
+    'box-shadow': '3px 3px 10px #111',
+    padding: '10px',
+    margin:'0px 0px 10px 0px',
+}">
+      <div class="flex justify-content-between mb-3">
+          <div>
+              <span class="block text-500 font-medium mb-3">sum of story points done</span>
+              <div class="text-900 font-medium text-xl">{{statistics.sumOfStoryPointsDone || '0'}}</div>
+          </div>
+          <div class="flex align-items-center justify-content-center bg-primary border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+              <i class="pi pi-money-bill text-xl"></i>
+          </div>
+      </div>
+      <span class="text-primary-500 font-medium">{{selectedDates.name}} data</span>
+  </div>
+</div>
+    </div>
+    <div class="card px-4 py-4" *ngIf="(history | json) != ({} | json)">
+      <div class="flex flex-row justify-content-between align-items-center py-2">
+       <p class="m-0 p-0">{{convertDateToString(history.from!)}} - {{convertDateToString(history.to!)}}</p>
+       <p class="m-0 p-0">{{convertTimeToString(getHoursAndMinutes(history.time!))}}</p>
+      </div>
+      <div *ngFor="let timeHistory of history.historyDTOs" class="mb-4">
+      <p-table *ngIf="timeHistory.trackedData" [value]="timeHistory.trackedData" styleClass="p-datatable-striped" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="caption">
+           <div class="flex flex-row justify-content-between align-items-center">
+            <p class="m-0 p-0">{{convertDateToString(timeHistory.dateOfActivity!)}}</p>
+            <p class="m-0 p-0">total: {{convertTimeToString(getHoursAndMinutes(timeHistory.time!))}}</p>
+           </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>project key</th>
+                <th>task name</th>
+                <th>description</th>
+                <th>time spent</th>
+                <th>total time spent</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-timer>
+            <tr>
+                <td style="width:10%;">{{ timer.projectKey || '-' }}</td>
+                <td style="width:20%;">{{ timer.taskName || '-' }}</td>
+                <td style="width:30%;">{{ timer.description || '-'}}</td>
+                <td style="width:20%;">{{convertTimeToString(timer.workFrom!)}} - {{convertTimeToString(timer.workTo)}}</td>
+                <td style="width:10%;">{{convertTimeToString(getHoursAndMinutes(timer.time!))}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+  </div>
     </div>
   </div>
 </div>
