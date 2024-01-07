@@ -145,6 +145,9 @@
       <span>{{projectDetails.key}}-{{infoTask.key}}</span>
     </div>
     <div>
+      <span>{{infoTask.storyPoints}} SP</span>
+    </div>
+    <div>
       <p-dropdown appendTo="body" [options]="workflow" [(ngModel)]="selectedWorkflow" [showClear]="false" (ngModelChange)="searchSubject.next($event)">
         <ng-template pTemplate="selectedItem">
           {{selectedWorkflow.name}}

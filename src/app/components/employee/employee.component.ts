@@ -10,11 +10,11 @@ import { EmployeeService } from './employee.service';
   providers: [MessageService]
 })
 export class EmployeeComponent {
-  productDialog: boolean = false;
+  employeeDialog: boolean = false;
 
-  deleteProductDialog: boolean = false;
+  deleteEmployeeDialog: boolean = false;
 
-  deleteProductsDialog: boolean = false;
+  deleteEmployeesDialog: boolean = false;
 
   refreshPasswords: boolean = false;
 
@@ -46,26 +46,26 @@ export class EmployeeComponent {
       this.employee = {
         user: {}
       };
-      this.productDialog = true;
+      this.employeeDialog = true;
   }
 
-  deleteSelectedProducts() {
-      this.deleteProductsDialog = true;
+  deleteSelectedEmployees() {
+      this.deleteEmployeesDialog = true;
   }
 
-  editProduct(employee: PersonInterface) {
+  editEmployee(employee: PersonInterface) {
       this.employee = { ...employee };
       this.employee.user = Object.assign({}, this.employee.user);
-      this.productDialog = true;
+      this.employeeDialog = true;
   }
 
-  deleteProduct(employee: PersonInterface) {
-      this.deleteProductDialog = true;
+  deleteEmployee(employee: PersonInterface) {
+      this.deleteEmployeeDialog = true;
       this.employee = { ...employee };
   }
 
   confirmDeleteSelected() {
-      this.deleteProductsDialog = false;
+      this.deleteEmployeesDialog = false;
       this.employeeService.deleteEmployees(this.selectedEmployee.map(employee => employee.id ?? 0)).subscribe();
       this.employees = this.employees.filter(val => !this.selectedEmployee.includes(val));
       this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Employees Deleted', life: 3000 });
@@ -73,7 +73,7 @@ export class EmployeeComponent {
   }
 
   confirmDelete() {
-      this.deleteProductDialog = false;
+      this.deleteEmployeeDialog = false;
       var personId: number[] = [this.employee.id??0]
       this.employeeService.deleteEmployees(personId).subscribe((data) =>{
         if(data.status == 200){
@@ -87,12 +87,13 @@ export class EmployeeComponent {
   }
 
   hideDialog() {
-      this.productDialog = false;
+      this.employeeDialog = false;
       this.employee = {};
       this.cardImageBase64 = '';
   }
 
-  saveProduct() {
+  saveEmployee() {
+        this.employee.workDuringWeekInHours = 40;
             this.employeeService.saveEmployee(this.employee).subscribe((data:any) => {
               this.employees[this.findArrayPlacement(data.id)] = data;
               this.employees = [...this.employees];
@@ -104,7 +105,7 @@ export class EmployeeComponent {
               }
             });
           this.employees = [...this.employees];
-          this.productDialog = false;
+          this.employeeDialog = false;
           this.employee = {};
           this.cardImageBase64 = '';
   }

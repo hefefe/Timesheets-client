@@ -164,7 +164,7 @@ export class ProjectReportsComponent {
                   borderColor: documentStyle.getPropertyValue('--primary-500'),
                   yAxisID: 'y',
                   tension: 0,
-                  data: this.statistics.data?.map(data => data.committed)
+                  data: this.statistics.data?.filter((test) => new Date(test.date![0], test.date![1]-1, test.date![2])<new Date()).map(data => data.committed)
               }
           ]
       };

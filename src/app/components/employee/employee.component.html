@@ -6,7 +6,7 @@
     <div class="card px-4 py-4">
       <div class="my-2">
                       <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-outlined p-button-success mr-2" (click)="openNew()"></button>
-                      <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-outlined p-button-danger mr-2" (click)="deleteSelectedProducts()" [disabled]="!selectedEmployee || !selectedEmployee.length"></button>
+                      <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-outlined p-button-danger mr-2" (click)="deleteSelectedEmployees()" [disabled]="!selectedEmployee || !selectedEmployee.length"></button>
                       <button pButton pRipple label="Reset password" icon="pi pi-refresh" class="p-button-outlined p-button-warning" (click)="resetPassword()" [disabled]="!selectedEmployee || !selectedEmployee.length"></button>
                   </div>
       <p-table #dt [value]="employees" responsiveLayout="scroll" [rows]="10"
@@ -70,7 +70,7 @@
             </td>
             <td style="width:10%;">
               <span class="p-column-title">Pay/H</span>
-              {{employee.hourlyPay | number:'0.2'}}
+              {{employee.hourlyPay | number:'0.2'}} PLN
             </td>
             <td style="width:10%;">
               <span class="p-column-title">Work H/week</span>
@@ -82,8 +82,8 @@
             </td>
             <td>
                 <div>
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success m-1" (click)="editProduct(employee)"></button>
-                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger m-1" (click)="deleteProduct(employee)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success m-1" (click)="editEmployee(employee)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-danger m-1" (click)="deleteEmployee(employee)"></button>
                 </div>
             </td>
           </tr>
@@ -91,7 +91,7 @@
       </p-table>
     </div>
 
-    <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="Product Details" [modal]="true" class="p-fluid" [closable]="false">
+    <p-dialog [(visible)]="employeeDialog" [style]="{width: '450px'}" header="Employee Details" [modal]="true" class="p-fluid" [closable]="false">
           <ng-template pTemplate="content">
             <div class="flex flex-column align-items-center justify-content-center">
             <div class="image-upload border-2 surface-border flex align-items-center justify-content-center container border-round-md myDIV mb-2" [style]="{width: '200px', height: '200px'}">
@@ -109,7 +109,7 @@
                 <input type="text" pInputText id="name" [(ngModel)]="employee.lastName" />
               </div>
             </div>
-            <div class="pormgrid grid">
+            <div class="formgrid grid">
               <div class="field col">
                 <label htmlFor="name2">E-mail</label>
                 <input type="text" pInputText id="name" [(ngModel)]="employee.user!.email"/>
@@ -119,16 +119,16 @@
                 <input ype="text" pInputText id="name" [(ngModel)]="employee.phone" />
               </div>
             </div>
-            <div class="formgrid grid">
-              <div class="field col">
-                <label htmlFor="name2">Pay per hour</label>
-                <input type="number" pInputText id="name" [(ngModel)]="employee.hourlyPay" min="0" step="0.01"/>
+              <div class="formgrid grid">
+                <div class="field col">
+                  <label htmlFor="name">Pay per hour (PLN)</label>
+                  <input type="number" pInputText id="name" [(ngModel)]="employee.hourlyPay" min="0" step="0.01"/>
+                </div>
+                <div class="field col">
+                  <label htmlFor="email2">work H/week</label>
+                  <input type="number" pInputText id="name" [(ngModel)]="employee.workDuringWeekInHours" min="0" step="1"/>
+                </div>
               </div>
-              <div class="field col">
-                <label htmlFor="email2">work H/week</label>
-                <input type="number" pInputText id="name" [(ngModel)]="employee.workDuringWeekInHours" min="0" step="1"/>
-              </div>
-            </div>
               <div class="field w-full">
                 <label htmlFor="name2">experience</label>
                 <p-dropdown appendTo="body" [options]="experience" [(ngModel)]="employee.experience" [showClear]="true" placeholder="select experience level"></p-dropdown>
@@ -142,28 +142,28 @@
 
           <ng-template pTemplate="footer">
               <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-              <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveProduct()"></button>
+              <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEmployee()"></button>
           </ng-template>
       </p-dialog>
 
-      <p-dialog [(visible)]="deleteProductDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+      <p-dialog [(visible)]="deleteEmployeeDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
           <div class="flex align-items-center justify-content-center">
               <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
               <span *ngIf="employee">Are you sure you want to delete <b>{{employee.firstName}} </b><b>{{employee.lastName}}</b>?</span>
           </div>
           <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductDialog = false"></button>
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEmployeeDialog = false"></button>
               <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
           </ng-template>
       </p-dialog>
 
-      <p-dialog [(visible)]="deleteProductsDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+      <p-dialog [(visible)]="deleteEmployeesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
           <div class="flex align-items-center justify-content-center">
               <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
               <span>Are you sure you want to delete selected employees?</span>
           </div>
           <ng-template pTemplate="footer">
-              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+              <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEmployeesDialog = false"></button>
               <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
           </ng-template>
       </p-dialog>
