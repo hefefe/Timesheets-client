@@ -17,7 +17,7 @@ export class TimesheetsAuthComponent {
   constructor(private jwtService:AuthServiceService, private router: Router, private route: ActivatedRoute){
     const accessToken = localStorage.getItem(GlobalconstantsModule.atoken) || sessionStorage.getItem(GlobalconstantsModule.atoken);
     if (accessToken){
-      this.router.navigate(["/home"]);
+      this.router.navigate(["/home/timetracker"]);
     }
   }
 
@@ -34,7 +34,7 @@ export class TimesheetsAuthComponent {
         if (data.requiredToChangePassword == true){
           this.router.navigate(["/changePassword"]);
         }else{
-          this.router.navigate(["/home"]);
+          this.router.navigate(["/home/timetracker"]);
         }
       }
     )
