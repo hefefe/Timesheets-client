@@ -2,7 +2,11 @@ import { Component } from '@angular/core';
 import { TimeTrackerService } from './time-tracker.service';
 import { ProjectsService } from '../projects/projects.service';
 import { IProject } from 'src/app/project-interface';
-import { IHistoryWithTotalTime, IIsStarted, ITimer } from 'src/app/timer-interface';
+import {
+  IHistoryWithTotalTime,
+  IIsStarted,
+  ITimer,
+} from 'src/app/timer-interface';
 import { ITask } from 'src/app/task-interface';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
@@ -24,10 +28,10 @@ export class TimeTrackerComponent {
 
   startedTimer: boolean = false;
 
-  timer: number[] = [0,0,0];
+  timer: number[] = [0, 0, 0];
 
   projectSubject = new Subject<any>();
-  interval:any;
+  interval: any;
 
   constructor(
     private timeTrackerService: TimeTrackerService,
@@ -38,27 +42,29 @@ export class TimeTrackerComponent {
     this.projectService.getProjects().then((data) => (this.projects = data));
     this.timeTrackerService
       .getHistory()
-      .subscribe((data: any) => this.history = data);
+      .subscribe((data: any) => (this.history = data));
     this.timeTrackerService
       .getIsTimerStarted()
       .subscribe((data: IIsStarted) => {
         if (data.startedTime != undefined) {
           this.startedData = data;
-          Object.keys(data.project! || {}).length === 0 ? null : this.timeTrackerService.getTasks(this.startedData.project!.id!).subscribe((data:any)=> this.tasks = data);
-          this.startedTimer = true;
+          Object.keys(data.project! || {}).length === 0
+            ? null
+            : this.taskDropdownListData(this.startedData.project!.id!);
           this.prepareData();
           this.startTimer();
         }
       });
-
-      this.projectSubject.pipe(
-        distinctUntilChanged())
-        .subscribe(() => {
-          this.tasks = [];
-          this.timeTrackerService.getTasks(this.startedData.project!.id!).subscribe((data:any)=> this.tasks = data);
-        });
+    this.projectSubject.pipe(distinctUntilChanged()).subscribe(() => {
+      this.taskDropdownListData(this.startedData.project!.id!);
+    });
   }
 
+  taskDropdownListData(id: number) {
+    this.timeTrackerService
+      .getTasks(id)
+      .subscribe((data: any) => (this.tasks = data));
+  }
   getMonthShortName(monthNumber: number) {
     var monthNames = [
       'Jan',
@@ -89,7 +95,7 @@ export class TimeTrackerComponent {
   getHoursAndMinutesAndSeconds(time: number) {
     var timeInTime: number[] = [];
     var hours: number = Math.floor(time / 3600);
-    var minutes: number = Math.floor((time - hours * 3600)/60);
+    var minutes: number = Math.floor((time - hours * 3600) / 60);
     var seconds: number = time - hours * 3600 - minutes * 60;
     timeInTime.push(hours);
     timeInTime.push(minutes);
@@ -98,10 +104,14 @@ export class TimeTrackerComponent {
   }
 
   convertTimeToString(time: number[]): string {
-    return `${time[0] < 10 ? '0' + time[0] : time[0]}:${time[1] < 10 ? '0' + time[1] : time[1]}`;
+    return `${time[0] < 10 ? '0' + time[0] : time[0]}:${
+      time[1] < 10 ? '0' + time[1] : time[1]
+    }`;
   }
   convertTimeToStringWithSeconds(time: number[]): string {
-    return `${time[0] < 10 ? '0' + time[0] : time[0]}:${time[1] < 10 ? '0' + time[1] : time[1]}:${time.length == 3?time[2]<10?'0'+time[2]:time[2]:'00'}`;
+    return `${time[0] < 10 ? '0' + time[0] : time[0]}:${
+      time[1] < 10 ? '0' + time[1] : time[1]
+    }:${time.length == 3 ? (time[2] < 10 ? '0' + time[2] : time[2]) : '00'}`;
   }
 
   countUp() {
@@ -118,56 +128,68 @@ export class TimeTrackerComponent {
   }
 
   convertDateToString(date: number[]) {
-    if(date != undefined){
-    return `${date[2] < 10 ? '0' + date[2] : date[2]} ${this.getMonthShortName(
-      date[1]
-    )} ${date[0]}`;
-  }
-  return "01" + "Jan" + "1901";
+    if (date != undefined) {
+      return `${
+        date[2] < 10 ? '0' + date[2] : date[2]
+      } ${this.getMonthShortName(date[1])} ${date[0]}`;
+    }
+    return '01' + 'Jan' + '1901';
   }
 
   prepareData() {
-    var date:number[] = this.dateToNumberArray();
-    if(this.startedData.startedTime != undefined){
-      var timeNow:number[] = [date[3],date[4],date[5]];
-      var timeFromServer:number[] = [this.startedData.startedTime[0], this.startedData.startedTime[1], this.startedData.startedTime[2] == undefined ? 0 : this.startedData.startedTime[2]];
-      var diff = this.convertTimeArrayToNumber(timeNow) - this.convertTimeArrayToNumber(timeFromServer);
+    var date: number[] = this.dateToNumberArray();
+    if (this.startedData.startedTime != undefined) {
+      var timeNow: number[] = [date[3], date[4], date[5]];
+      var timeFromServer: number[] = [
+        this.startedData.startedTime[0],
+        this.startedData.startedTime[1],
+        this.startedData.startedTime[2] == undefined
+          ? 0
+          : this.startedData.startedTime[2],
+      ];
+      var diff =
+        this.convertTimeArrayToNumber(timeNow) -
+        this.convertTimeArrayToNumber(timeFromServer);
       this.timer = this.getHoursAndMinutesAndSeconds(diff);
-    }else{
-      this.timer = [0,0,0];
+    } else {
+      this.timer = [0, 0, 0];
     }
   }
 
-  startTimer(){
+  startTimer() {
     this.interval = setInterval(() => {
       this.countUp();
-    },1000)
+    }, 1000);
     this.startedTimer = true;
   }
 
   stopTimer() {
-    this.timeTrackerService.stopTimer().subscribe(()=>{
+    this.timeTrackerService.stopTimer().subscribe(() => {
       this.startedData = {};
       this.tasks = [];
       this.startedTimer = false;
       clearInterval(this.interval);
-      this.timer = [0,0,0];
+      this.timer = [0, 0, 0];
       this.startTimerData = {};
-      this.timeTrackerService.getHistory().subscribe((data:any) => this.history = data);
-    })
-  }
-
-  startTimeTracker(){
-    this.startTimerData.taskId = this.startedData.task?.id;
-    this.startTimerData.description = this.startedData?.description;
-    this.timeTrackerService.startTimer(this.startTimerData).subscribe((data:IIsStarted) => {
-      this.startedData = data;
-      this.startTimer();
+      this.timeTrackerService
+        .getHistory()
+        .subscribe((data: any) => (this.history = data));
     });
   }
-  dateToNumberArray(){
-    var date:Date = new Date();
-    var numberArray:number[] = [];
+
+  startTimeTracker() {
+    this.startTimerData.taskId = this.startedData.task?.id;
+    this.startTimerData.description = this.startedData?.description;
+    this.timeTrackerService
+      .startTimer(this.startTimerData)
+      .subscribe((data: IIsStarted) => {
+        this.startedData = data;
+        this.startTimer();
+      });
+  }
+  dateToNumberArray() {
+    var date: Date = new Date();
+    var numberArray: number[] = [];
     numberArray.push(date.getFullYear());
     numberArray.push(date.getMonth());
     numberArray.push(date.getDay());

@@ -132,6 +132,7 @@ export class ProjectReportsComponent {
                 },
                 y: {
                     ticks: {
+                        beginAtZero: true,
                         color: textColorSecondary
                     },
                     grid: {
@@ -198,7 +199,8 @@ export class ProjectReportsComponent {
                   display: true,
                   position: 'left',
                   ticks: {
-                      color: textColorSecondary
+                      color: textColorSecondary,
+                      beginAtZero: true
                   },
                   grid: {
                       color: surfaceBorder

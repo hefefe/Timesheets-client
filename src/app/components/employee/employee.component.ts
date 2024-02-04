@@ -93,7 +93,6 @@ export class EmployeeComponent {
   }
 
   saveEmployee() {
-        this.employee.workDuringWeekInHours = 40;
             this.employeeService.saveEmployee(this.employee).subscribe((data:any) => {
               this.employees[this.findArrayPlacement(data.id)] = data;
               this.employees = [...this.employees];
