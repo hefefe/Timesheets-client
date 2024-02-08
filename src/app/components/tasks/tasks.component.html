@@ -10,7 +10,7 @@
       <p class="text-base font-light m-0 p-0">Iteration: {{projectDetails.sprintNumber}}</p>
     </div>
     <div class="mt-3">
-      <button pButton pRipple label="New task" icon="pi pi-plus" class="p-button-outlined p-button-success mr-2" (click)="openNew()"></button>
+      <button pButton pRipple label="New task" icon="pi pi-plus" class="p-button-outlined p-button-success mr-2" (click)="openNew()" [disabled]="!(basicData.position?.toString() == 'MANAGER' || basicData.position?.toString() == 'TEAM_LEADER')"></button>
     </div>
   </div>
     <div class="flex flex-row no-wrap justify-content-evenly align-items-stretch">
@@ -194,8 +194,8 @@
   <ng-template pTemplate="footer">
     <div class="flex flex-row justify-content-between align-items-center w-full">
       <div style="margin-left: -12px;">
-        <button pButton pRipple label="reject" icon="pi pi-trash" class="p-button-text p-button-danger" (click)="deleteTask()"></button>
-        <button pButton pRipple label="edit" icon="pi pi-pencil" class="p-button-text p-button-warning" (click)="editTask()"></button>
+        <button pButton pRipple label="reject" icon="pi pi-trash" class="p-button-text p-button-danger" (click)="deleteTask()" [disabled]="!(basicData.position?.toString() == 'MANAGER' || basicData.position?.toString() == 'TEAM_LEADER')"></button>
+        <button pButton pRipple label="edit" icon="pi pi-pencil" class="p-button-text p-button-warning" (click)="editTask()" [disabled]="!(basicData.position?.toString() == 'MANAGER' || basicData.position?.toString() == 'TEAM_LEADER')"></button>
       </div>
       <div>
         <button pButton pRipple label="Ok" icon="pi pi-check" class="p-button-text" (click)="hideDialog()" style="margin-right: -8px;"></button>

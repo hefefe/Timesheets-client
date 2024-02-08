@@ -4,6 +4,7 @@ import { ProjectsService } from './projects.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Experience, ISearchPerson, PersonInterface, Position } from 'src/app/person-Interface';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { AppServiceService } from '../home/app-service.service';
 
 @Component({
   selector: 'app-projects',
@@ -44,8 +45,9 @@ export class ProjectsComponent {
   searchSubject = new Subject<ISearchPerson>();
 
   editingProject: boolean = false;
+  basicData: PersonInterface = {};
 
-  constructor(private projectService: ProjectsService, private router: Router, private route: ActivatedRoute) {
+  constructor(private projectService: ProjectsService, private router: Router, private appService: AppServiceService) {
     this.sprintDuration= Object.values(this.enumsSprintDuration);
     this.experience= Object.keys(this.enumsExperience);
     this.position= Object.keys(this.enumsPosition);
@@ -61,6 +63,7 @@ export class ProjectsComponent {
   }
 
   ngOnInit() {
+    this.getLoggedInUser();
    this.projectService.getProjects().then(data => this.projects = data);
   }
 
@@ -156,5 +159,7 @@ CreateBase64String(fileInput: any) {
     reader.readAsDataURL(fileInput.target.files[0]);
   }
 }
-
+getLoggedInUser(){
+  this.appService.getLoggedUser().subscribe(data => this.basicData = data);
+}
 }

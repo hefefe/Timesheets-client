@@ -145,7 +145,7 @@
 }">
           <div class="flex justify-content-between mb-3">
             <div>
-              <span class="block text-500 font-medium mb-3">Sum of completed story points</span>
+              <span class="block text-500 font-medium mb-3">Sum of SP completed</span>
               <div class="text-900 font-medium text-xl">{{statistics.sumOfStoryPointsDone || '0'}}</div>
             </div>
             <div class="flex align-items-center justify-content-center bg-primary border-round"
@@ -167,7 +167,7 @@
         margin:'0px 0px 10px 0px',
     }">
         <span class="block text-500 font-medium mb-3">Time spent on tasks</span>
-        <p-chart type="pie" [data]="data" [options]="options" style="width: 13.5vw; height: 28vh;"></p-chart>
+        <p-chart type="pie" [data]="data" [options]="options" width="55vh" height="28vh"></p-chart>
     </div>
     <div class="card flex flex-column justify-content-center align-items-center p-2" [style]="{
       border: '2px solid #333333',
@@ -177,7 +177,7 @@
       margin:'0px 0px 10px 0px',
   }">
       <span class="block text-500 font-medium mb-3">story points done by date</span>
-      <p-chart type="line" style="width: 74vw;" height="28vh" [data]="dataLine" [options]="optionsLine"></p-chart>
+      <p-chart type="line" style="width: 40vw;" height="28vh" [data]="dataLine" [options]="optionsLine"></p-chart>
   </div>
     </div>
   </div>

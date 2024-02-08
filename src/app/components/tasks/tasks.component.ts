@@ -6,6 +6,7 @@ import { PersonInterface } from 'src/app/person-Interface';
 import { IProject } from 'src/app/project-interface';
 import { ITask, ITaskGroup, ITaskType, IWorkFlow } from 'src/app/task-interface';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { AppServiceService } from '../home/app-service.service';
 
 @Component({
   selector: 'app-tasks',
@@ -30,10 +31,11 @@ export class TasksComponent {
   creatingTask:boolean = false;
   infoDialog:boolean = false;
   deletingTask:boolean = false;
+  basicData: PersonInterface = {};
 
   searchSubject = new Subject<IWorkFlow>();
 
-  constructor(private route: ActivatedRoute, private _location: Location, private taskService:TasksService) {
+  constructor(private route: ActivatedRoute, private _location: Location, private taskService:TasksService, private appService: AppServiceService) {
     this.searchSubject.pipe(
       distinctUntilChanged())
       .subscribe(() => {
@@ -73,6 +75,7 @@ export class TasksComponent {
     this.taskService.getEmployeesInProject(this.id).subscribe((data:any) => this.personsInProject = data)
     this.taskService.getTaskTypes().subscribe((data:any) => this.taskTypes = data);
     this.taskService.getProjectWorkflow(this.id).subscribe((data:any)=> this.workflow = data);
+    this.getLoggedInUser();
   }
 
   ngOnDestroy() {
@@ -140,6 +143,10 @@ export class TasksComponent {
 
   deleteTask(){
     this.deletingTask = true;
+  }
+
+  getLoggedInUser(){
+    this.appService.getLoggedUser().subscribe(data => this.basicData = data);
   }
 
   confirmDelete(){

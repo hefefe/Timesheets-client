@@ -5,7 +5,7 @@
     </div>
     <div class="card px-4 py-4">
       <div class="my-2">
-                      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-outlined p-button-success mr-2" (click)="openNew()"></button>
+                      <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-outlined p-button-success mr-2" (click)="openNew()" [disabled]="!(basicData.position?.toString() == 'MANAGER' || basicData.position?.toString() == 'TEAM_LEADER')"></button>
                   </div>
       <p-table #dt [value]="projects" responsiveLayout="scroll" [rows]="10" [paginator]="true"
         [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
@@ -39,8 +39,8 @@
             <td style="width:20%;">{{ project.sprintDuration}}</td>
             <td style="width:20%;">
               <div>
-                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success m-1" (click)="editProject(project)"></button>
-                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-warning m-1" (click)="deleteProject(project)"></button>
+                  <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-outlined p-button-success m-1" (click)="editProject(project)" [disabled]="!(basicData.position?.toString() == 'MANAGER' || basicData.position?.toString() == 'TEAM_LEADER')"></button>
+                  <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-outlined p-button-warning m-1" (click)="deleteProject(project)" [disabled]="!(basicData.position?.toString() == 'MANAGER' || basicData.position?.toString() == 'TEAM_LEADER')"></button>
               </div>
           </td>
           </tr>

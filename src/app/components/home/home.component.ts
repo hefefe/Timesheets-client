@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   title = 'timesheets-client';
   sidebarVisible: boolean = false;
-  basicData: PersonInterface = {}
+  basicData: PersonInterface = {};
 
   tokens: Tokens = {
     accessToken: '',
